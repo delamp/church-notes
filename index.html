@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Church Notes</title>
+<meta name="theme-color" content="#f6efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16120e" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6efe3; --paper: #fffaf1; --paper2: #f1e7d6; --ink: #2a2118; --ink2: #5e4f3e; --ink3: #8f7d67;
+  --line: #e6d9c3; --wine: #7a2e2a; --wine2: #9c3d35; --gold: #b8893d; --gold2: #e9cf96; --sage: #4f6b52;
+  --shadow: 0 1px 2px rgba(60,40,20,.06), 0 8px 24px rgba(60,40,20,.08);
+  --r: 18px; --serif: 'Fraunces', Georgia, serif; --sans: 'Inter', system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16120e; --paper: #211b15; --paper2: #2b231b; --ink: #f3e9d8; --ink2: #cdbca3; --ink3: #95846c;
+    --line: #3a3026; --wine: #d0705f; --wine2: #e08a78; --gold: #d9b26a; --gold2: #5a4627; --sage: #8fb08f;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16120e; --paper: #211b15; --paper2: #2b231b; --ink: #f3e9d8; --ink2: #cdbca3; --ink3: #95846c;
+  --line: #3a3026; --wine: #d0705f; --wine2: #e08a78; --gold: #d9b26a; --gold2: #5a4627; --sage: #8fb08f;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35); color-scheme: dark;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 var(--sans); }
+body { min-height: 100vh; padding-bottom: env(safe-area-inset-bottom); }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+input, textarea, select { font: inherit; color: var(--ink); }
+a { color: var(--wine); }
+.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 120px; }
+.hidden { display: none !important; }
+
+/* ---------- top bar ---------- */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(12px);
+  display: flex; align-items: center; gap: 10px; padding: calc(10px + env(safe-area-inset-top)) 16px 10px; max-width: 760px; margin: 0 auto; }
+.brand { font: 600 22px var(--serif); letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.brand .mark { width: 30px; height: 30px; border-radius: 9px; background: var(--wine); display: grid; place-items: center; color: #f3dcae; }
+.brand .mark .i { width: 18px; height: 18px; }
+.iconbtn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: var(--ink2); }
+.iconbtn:active { background: var(--paper2); }
+.toptitle { flex: 1; min-width: 0; }
+.toptitle b { display: block; font: 600 19px var(--serif); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toptitle small { color: var(--ink3); font-size: 13px; }
+
+/* ---------- hero ---------- */
+.eyebrow { font: 600 11.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.hero { margin: 8px 0 22px; background: var(--paper); border: 1px solid var(--line); border-radius: 26px; padding: 22px 20px 20px; box-shadow: var(--shadow);
+  position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: -40% -30% auto auto; width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--gold2) 70%, transparent), transparent 65%); opacity: .55; pointer-events: none; }
+.hero h1 { font: 500 30px/1.12 var(--serif); margin: 6px 0 4px; letter-spacing: -.015em; position: relative; }
+.hero h1 em { color: var(--wine); font-style: italic; }
+.target { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; padding: 6px 12px 6px 10px; border-radius: 999px;
+  background: var(--paper2); color: var(--ink2); font-size: 14px; position: relative; max-width: 100%; }
+.target span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.target .i { width: 16px; height: 16px; }
+.recbig { position: relative; margin: 20px 0 16px; width: 100%; display: flex; align-items: center; gap: 16px; padding: 14px 18px 14px 14px;
+  border-radius: 20px; background: var(--wine); color: #fff6e8; box-shadow: 0 10px 24px color-mix(in srgb, var(--wine) 35%, transparent); text-align: left; }
+.recbig .dot { width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.16); display: grid; place-items: center; flex: none; }
+.recbig .dot i { width: 18px; height: 18px; border-radius: 50%; background: #ff6b57; box-shadow: 0 0 0 5px rgba(255,107,87,.25); display: block; }
+.recbig b { display: block; font: 600 19px var(--serif); }
+.recbig small { opacity: .8; font-size: 13.5px; }
+.quick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; position: relative; }
+.qbtn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 2px 10px; border-radius: 16px; background: var(--paper2);
+  font-size: 12.5px; font-weight: 500; color: var(--ink2); }
+.qbtn .i { color: var(--wine); width: 24px; height: 24px; }
+.qbtn:active, .recbig:active { transform: scale(.97); }
+
+/* ---------- sections & cards ---------- */
+.sec { display: flex; align-items: baseline; justify-content: space-between; margin: 26px 2px 10px; }
+.sec h2 { font: 600 20px var(--serif); margin: 0; }
+.sec button { color: var(--wine); font-size: 14px; font-weight: 600; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+.list { display: grid; gap: 10px; }
+.gcard { display: flex; gap: 14px; padding: 14px; align-items: center; text-align: left; width: 100%; }
+.cal { width: 52px; flex: none; border-radius: 12px; overflow: hidden; text-align: center; border: 1px solid var(--line); background: var(--paper); }
+.cal small { display: block; background: var(--wine); color: #fff2dc; font: 700 10px var(--sans); letter-spacing: .1em; padding: 3px 0; text-transform: uppercase; }
+.cal b { display: block; font: 600 22px/1.25 var(--serif); padding: 2px 0 3px; }
+.gcard .t { flex: 1; min-width: 0; }
+.gcard .t b { display: block; font: 600 17px/1.3 var(--serif); }
+.gcard .t p { margin: 2px 0 0; color: var(--ink2); font-size: 14px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--paper2); color: var(--ink2); display: inline-flex; align-items: center; gap: 4px; }
+.pill.gold { background: color-mix(in srgb, var(--gold) 18%, transparent); color: color-mix(in srgb, var(--gold) 70%, var(--ink)); }
+.pill.wine { background: color-mix(in srgb, var(--wine) 14%, transparent); color: var(--wine); }
+.pill.sage { background: color-mix(in srgb, var(--sage) 16%, transparent); color: var(--sage); }
+.pill .i { width: 13px; height: 13px; }
+.empty { text-align: center; padding: 34px 20px; color: var(--ink2); }
+.empty h2 { font: 600 22px var(--serif); color: var(--ink); margin: 0 0 6px; }
+
+/* actions (dates) */
+.acard { padding: 13px 14px; display: flex; gap: 12px; align-items: flex-start; }
+.acard .when { width: 56px; flex: none; text-align: center; }
+.acard .when b { display: block; font: 600 20px/1.1 var(--serif); }
+.acard .when small { font-size: 11.5px; color: var(--ink3); text-transform: uppercase; letter-spacing: .06em; }
+.acard .t { flex: 1; min-width: 0; }
+.acard .t b { font-weight: 600; }
+.acard .t p { margin: 2px 0 0; font-size: 13.5px; color: var(--ink2); }
+.acard .btns { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.sbtn { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 999px; background: var(--paper2); color: var(--ink2); display: inline-flex; gap: 5px; align-items: center; }
+.sbtn .i { width: 15px; height: 15px; }
+.sbtn.on { background: var(--wine); color: #fff4e4; }
+.sbtn.ok { background: color-mix(in srgb, var(--sage) 18%, transparent); color: var(--sage); }
+
+/* ---------- gathering ---------- */
+.tabs { display: flex; gap: 4px; background: var(--paper2); padding: 4px; border-radius: 14px; margin: 8px 0 16px; position: sticky; top: calc(64px + env(safe-area-inset-top)); z-index: 10; }
+.tabs button { flex: 1; padding: 9px 6px; border-radius: 11px; font-size: 14px; font-weight: 600; color: var(--ink3); }
+.tabs button.on { background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.banner { display: flex; gap: 12px; align-items: center; padding: 12px 14px; margin-bottom: 14px; }
+.banner .t { flex: 1; font-size: 14px; color: var(--ink2); }
+.banner .t b { color: var(--ink); display: block; font-size: 15px; }
+.pbtn { background: var(--wine); color: #fff4e4; font-weight: 600; font-size: 14.5px; padding: 11px 16px; border-radius: 999px; display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+.pbtn[disabled] { opacity: .5; }
+.pbtn.ghost { background: var(--paper2); color: var(--ink); }
+.pbtn .i { width: 18px; height: 18px; }
+
+.msg { padding: 22px 20px; }
+.msg h1 { font: 500 28px/1.15 var(--serif); margin: 6px 0 6px; letter-spacing: -.015em; }
+.msg .by { color: var(--ink2); font-size: 14.5px; }
+.bigidea { font: italic 400 20px/1.4 var(--serif); margin: 18px 0 4px; padding-left: 14px; border-left: 3px solid var(--gold); }
+.points { counter-reset: p; margin: 20px 0 0; padding: 0; list-style: none; }
+.points li { counter-increment: p; padding: 12px 0 12px 42px; position: relative; border-top: 1px solid var(--line); }
+.points li::before { content: counter(p); position: absolute; left: 0; top: 12px; width: 28px; height: 28px; border-radius: 50%; background: var(--paper2);
+  font: 600 14px/28px var(--serif); text-align: center; color: var(--wine); }
+.points b { font: 600 17px/1.3 var(--serif); display: block; }
+.points p { margin: 4px 0 0; color: var(--ink2); }
+.points .ref { font-size: 13px; color: var(--gold); font-weight: 600; }
+.sub { font: 600 12px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin: 22px 0 8px; }
+.quote { font: italic 17px/1.45 var(--serif); padding: 10px 14px; background: var(--paper2); border-radius: 12px; margin: 8px 0; }
+ul.clean { margin: 0; padding-left: 20px; }
+ul.clean li { margin: 5px 0; }
+.verse { padding: 16px 18px; position: relative; }
+.verse b { font: 600 17px var(--serif); }
+.verse .ctx { color: var(--ink3); font-size: 13.5px; }
+.verse p { font: 400 16.5px/1.6 var(--serif); margin: 8px 0 0; }
+.verse p sup { color: var(--gold); font: 600 10px var(--sans); margin-right: 2px; }
+.verse .tr { font-size: 11.5px; color: var(--ink3); letter-spacing: .06em; margin-top: 6px; }
+.verse.collapsed p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.song { display: flex; gap: 12px; align-items: center; padding: 12px 14px; }
+.song .note { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--gold) 18%, transparent); color: var(--gold); flex: none; }
+.song .t { flex: 1; min-width: 0; }
+.song .t b { display: block; font-weight: 600; }
+.song .t small { color: var(--ink3); }
+.song a { font-size: 13px; font-weight: 600; text-decoration: none; padding: 6px 10px; border-radius: 999px; background: var(--paper2); color: var(--ink2); }
+
+/* captures */
+.icard { padding: 13px 14px; display: flex; gap: 12px; text-align: left; width: 100%; align-items: flex-start; }
+.ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--paper2); color: var(--wine); flex: none; }
+.icard .t { flex: 1; min-width: 0; }
+.icard .t b { display: block; font-weight: 600; }
+.icard .t p { margin: 2px 0 0; color: var(--ink2); font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.spin { width: 14px; height: 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; display: inline-block; animation: sp 0.8s linear infinite; }
+@keyframes sp { to { transform: rotate(360deg); } }
+.fab { position: fixed; right: max(16px, calc(50% - 364px)); bottom: calc(20px + env(safe-area-inset-bottom)); z-index: 30; height: 56px; padding: 0 20px 0 16px;
+  border-radius: 999px; background: var(--wine); color: #fff4e4; display: flex; gap: 8px; align-items: center; font-weight: 600; box-shadow: 0 10px 26px color-mix(in srgb, var(--wine) 40%, transparent); }
+
+/* ---------- sheets ---------- */
+.scrim { position: fixed; inset: 0; background: rgba(20,12,6,.45); z-index: 50; opacity: 0; transition: opacity .2s; }
+.scrim.show { opacity: 1; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 51; max-height: 92vh; overflow: auto; background: var(--paper); border-radius: 24px 24px 0 0;
+  padding: 10px 18px calc(22px + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform .26s cubic-bezier(.2,.8,.2,1);
+  max-width: 760px; margin: 0 auto; box-shadow: 0 -10px 40px rgba(0,0,0,.2); }
+.sheet.show { transform: none; }
+.sheet .grab { width: 42px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 12px; }
+.sheet h2 { font: 600 22px var(--serif); margin: 4px 0 4px; }
+.sheet .lead { color: var(--ink2); margin: 0 0 14px; font-size: 14.5px; }
+.field { display: block; margin: 12px 0; }
+.field > span { display: block; font-size: 13px; font-weight: 600; color: var(--ink2); margin-bottom: 6px; }
+.field input, .field textarea, .field select { width: 100%; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--bg); outline: none; }
+.field input:focus, .field textarea:focus { border-color: var(--gold); }
+.field textarea { min-height: 130px; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { padding: 8px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font-size: 14px; display: inline-flex; gap: 6px; align-items: center; }
+.chip .i { width: 16px; height: 16px; }
+.chip.on { background: var(--wine); border-color: var(--wine); color: #fff4e4; }
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; }
+.menu { display: grid; gap: 4px; margin-top: 6px; }
+.menu button { display: flex; gap: 14px; align-items: center; padding: 13px 10px; border-radius: 14px; text-align: left; }
+.menu button:active { background: var(--paper2); }
+.menu button .i { color: var(--wine); }
+.menu button small { display: block; color: var(--ink3); font-size: 13px; }
+.menu button.danger, .menu button.danger .i { color: #b4382c; }
+.toggle { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+.toggle .t { flex: 1; }
+.toggle .t small { display: block; color: var(--ink3); font-size: 13px; }
+.sw { width: 48px; height: 28px; border-radius: 999px; background: var(--line); position: relative; flex: none; transition: background .2s; }
+.sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.sw.on { background: var(--sage); }
+.sw.on::after { transform: translateX(20px); }
+.transcript { white-space: pre-wrap; font-size: 14.5px; line-height: 1.6; color: var(--ink2); background: var(--bg); border-radius: 14px; padding: 14px; max-height: 50vh; overflow: auto; }
+.photo { width: 100%; border-radius: 14px; display: block; margin: 8px 0; }
+
+/* ---------- recorder ---------- */
+.rec { position: fixed; inset: 0; z-index: 60; background: radial-gradient(120% 80% at 50% 0%, #3a2219, #140d09 70%); color: #f6e8d2;
+  display: flex; flex-direction: column; padding: calc(18px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom)); }
+.rec .head { display: flex; align-items: center; gap: 10px; }
+.rec .head .t { flex: 1; }
+.rec .head .t b { display: block; font: 600 18px var(--serif); }
+.rec .head .t small { opacity: .7; font-size: 13px; }
+.rec .live { display: inline-flex; align-items: center; gap: 6px; font: 700 11px var(--sans); letter-spacing: .14em; color: #ff8b78; }
+.rec .live i { width: 8px; height: 8px; border-radius: 50%; background: #ff5a45; animation: blink 1.2s infinite; }
+.rec.paused .live { color: #e3c58a; } .rec.paused .live i { background: #e3c58a; animation: none; }
+@keyframes blink { 50% { opacity: .25; } }
+.rec .clock { font: 300 76px/1 var(--serif); text-align: center; margin: auto 0 10px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.meter { display: flex; gap: 3px; height: 54px; align-items: center; justify-content: center; margin-bottom: auto; }
+.meter i { width: 4px; border-radius: 2px; background: #e9c98f; opacity: .85; height: 4px; transition: height .08s; }
+.marks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0 8px; }
+.marks button { padding: 14px 4px 11px; border-radius: 16px; background: rgba(255,255,255,.08); display: flex; flex-direction: column; gap: 6px; align-items: center;
+  font-size: 13px; font-weight: 500; color: #f6e8d2; border: 1px solid rgba(255,255,255,.08); }
+.marks button .i { color: #e9c98f; }
+.marks button.flash { background: rgba(233,201,143,.35); }
+.marklog { min-height: 22px; text-align: center; font-size: 13px; opacity: .75; margin-bottom: 14px; }
+.rec .ctl { display: flex; gap: 12px; }
+.rec .ctl button { flex: 1; height: 58px; border-radius: 999px; font-weight: 600; font-size: 16px; display: flex; gap: 8px; align-items: center; justify-content: center; }
+.rec .ctl .pause { background: rgba(255,255,255,.1); }
+.rec .ctl .stop { background: #f4e3c4; color: #3a1f15; }
+.rec .hint { text-align: center; font-size: 12.5px; opacity: .55; margin-top: 12px; }
+
+/* ---------- toast & misc ---------- */
+.toast { position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom)); transform: translateX(-50%) translateY(20px); z-index: 80;
+  background: var(--ink); color: var(--bg); padding: 11px 18px; border-radius: 999px; font-size: 14px; opacity: 0; transition: all .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; }
+.toast.show { opacity: 1; transform: translateX(-50%); }
+.demo { background: var(--gold); color: #2a1a08; text-align: center; font-size: 12.5px; font-weight: 600; padding: 4px; }
+.outbox { padding: 12px 14px; display: flex; gap: 12px; align-items: center; margin-bottom: 12px; border-color: var(--gold); }
+.outbox .t { flex: 1; font-size: 14px; }
+.bar { height: 4px; background: var(--paper2); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.bar i { display: block; height: 100%; background: var(--wine); width: 0; transition: width .2s; }
+.muted { color: var(--ink3); }
+.center { text-align: center; }
+@media (min-width: 640px) { .hero h1 { font-size: 36px; } .quick { gap: 10px; } }
+</style>
+</head>
+<body>
+<div id="demoBar" class="demo" hidden>Demo mode — nothing leaves this phone</div>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><path d="M12 3v18M7 8h10"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><path d="M3 10v4h3l7 4V6L6 10H3z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l4-1L19 8l-3-3L5 16l-1 4z"/><path d="M14 7l3 3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-calplus" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h3.5l1.5 4.5-2 1.5a11 11 0 0 0 6 6l1.5-2 4.5 1.5V19a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 1 5"/></symbol>
+  <symbol id="i-move" viewBox="0 0 24 24"><path d="M4 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.3.2 4 1.8 4.5 4.3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/></symbol>
+  <symbol id="i-pray" viewBox="0 0 24 24"><path d="M12 3c-1 2-2 4-2 7v4l-4 3v3h4l2-3 2 3h4v-3l-4-3v-4c0-3-1-5-2-7z"/></symbol>
+</svg>
+
+<!-- ================= HOME ================= -->
+<div id="vHome">
+  <header class="top">
+    <div class="brand"><span class="mark"><svg class="i"><use href="#i-book"/></svg></span>Church Notes</div>
+    <button class="iconbtn" id="btnSettings" aria-label="Settings"><svg class="i"><use href="#i-gear"/></svg></button>
+  </header>
+  <main class="wrap">
+    <div id="outbox"></div>
+    <section class="hero">
+      <div class="eyebrow" id="heroEyebrow">Today</div>
+      <h1 id="heroTitle">Ready when <em>you are.</em></h1>
+      <button class="target" id="btnTarget"><svg class="i"><use href="#i-cross"/></svg><span id="targetLabel">Sunday Service</span><svg class="i"><use href="#i-down"/></svg></button>
+      <button class="recbig" id="btnRecord">
+        <span class="dot"><i></i></span>
+        <span><b>Record the message</b><small>Tap Verse or Song while it records to mark them</small></span>
+      </button>
+      <div class="quick">
+        <button class="qbtn" data-quick="verse"><svg class="i"><use href="#i-book"/></svg>Verse</button>
+        <button class="qbtn" data-quick="song"><svg class="i"><use href="#i-music"/></svg>Song</button>
+        <button class="qbtn" data-quick="announcement"><svg class="i"><use href="#i-mega"/></svg>Announce</button>
+        <button class="qbtn" data-quick="photo"><svg class="i"><use href="#i-camera"/></svg>Bulletin</button>
+        <button class="qbtn" data-quick="note"><svg class="i"><use href="#i-pen"/></svg>Note</button>
+      </div>
+    </section>
+
+    <div id="upcomingWrap" class="hidden">
+      <div class="sec"><h2>Coming up</h2></div>
+      <div class="list" id="upcoming"></div>
+    </div>
+
+    <div class="sec"><h2>Sundays &amp; meetings</h2><button id="btnNewMeeting">+ Meeting</button></div>
+    <div class="list" id="gList"><div class="card empty"><span class="spin"></span></div></div>
+  </main>
+</div>
+
+<!-- ================= GATHERING ================= -->
+<div id="vGathering" class="hidden">
+  <header class="top">
+    <button class="iconbtn" id="btnBack" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button>
+    <div class="toptitle"><b id="gTitle">Sunday Service</b><small id="gDate"></small></div>
+    <button class="iconbtn" id="btnGMenu" aria-label="More"><svg class="i"><use href="#i-gear"/></svg></button>
+  </header>
+  <main class="wrap">
+    <div class="tabs" id="gTabs">
+      <button data-tab="notes" class="on">Notes</button>
+      <button data-tab="captures">Captures</button>
+      <button data-tab="dates">Dates</button>
+    </div>
+    <div id="gBody"></div>
+  </main>
+  <button class="fab" id="btnAdd"><svg class="i"><use href="#i-plus"/></svg>Capture</button>
+</div>
+
+<!-- ================= RECORDER ================= -->
+<div class="rec hidden" id="vRec">
+  <div class="head">
+    <div class="t"><span class="live"><i></i><span id="recState">RECORDING</span></span><b id="recTitle">The message</b><small id="recTarget"></small></div>
+  </div>
+  <div class="clock" id="recClock">0:00</div>
+  <div class="meter" id="recMeter"></div>
+  <div class="marklog" id="recLog">Tap a button below when a verse is read or a song starts.</div>
+  <div class="marks" id="recMarks">
+    <button data-mark="verse"><svg class="i"><use href="#i-book"/></svg>Verse</button>
+    <button data-mark="song"><svg class="i"><use href="#i-music"/></svg>Song</button>
+    <button data-mark="announcement"><svg class="i"><use href="#i-mega"/></svg>Announce</button>
+    <button data-mark="general"><svg class="i"><use href="#i-star"/></svg>Key point</button>
+  </div>
+  <div class="ctl">
+    <button class="pause" id="recPause"><svg class="i"><use href="#i-pause"/></svg><span>Pause</span></button>
+    <button class="stop" id="recStop"><svg class="i"><use href="#i-stop"/></svg>Stop &amp; save</button>
+  </div>
+  <div class="hint" id="recHint">The screen stays on while recording. Every few seconds is saved on this phone, so nothing is lost.</div>
+</div>
+
+<div class="scrim hidden" id="scrim"></div>
+<div class="sheet hidden" id="sheet"><div class="grab"></div><div id="sheetBody"></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="filePhoto" accept="image/*" capture="environment" hidden>
+<input type="file" id="fileAny" accept="audio/*,image/*,application/pdf,text/plain" multiple hidden>
+
+<script>
+'use strict';
+// ====================================================================================
+// Config. After deploying the Apps Script web app, paste its /exec URL here.
+// Until then the app runs in demo mode (everything stays on this phone).
+// ====================================================================================
+const API = 'https://script.google.com/macros/s/AKfycbzC_if13Dy3kwV6xM9F-wT37yvfCKT47BnuII15CuxMFI6qygS--gbVbUsmuUpN_PkRpQ/exec';
+const DEMO = !/^https:\/\/script\.google\.com\//.test(API)
+  || (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /[?&]demo\b/.test(location.search));
+
+const LABELS = {
+  message:      { l: 'Message', i: 'i-cross' },
+  verse:        { l: 'Verse', i: 'i-book' },
+  song:         { l: 'Song', i: 'i-music' },
+  announcement: { l: 'Announcements', i: 'i-mega' },
+  general:      { l: 'Note', i: 'i-note' },
+};
+const SOURCES = { app: 'Recorded here', 'samsung-notes': 'Samsung Notes', voicemail: 'Voicemail', share: 'Shared', typed: 'Typed' };
+const KINDS = { sunday: 'Sunday Service', meeting: 'Meeting', event: 'Church event' };
+const REC_TYPES = ['audio/mp4;codecs=mp4a.40.2', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/webm;codecs=opus', 'audio/webm'];
+const REC_BITRATE = 32000; // speech: ~14 MB an hour
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const icon = (id, cls) => `<svg class="i${cls ? ' ' + cls : ''}"><use href="#${id}"/></svg>`;
+const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} };
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const pad = (n) => String(n).padStart(2, '0');
+const ymd = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const parseYmd = (s) => { const p = String(s).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2], 12); };
+const fmtDate = (s, o) => s ? parseYmd(s).toLocaleDateString(undefined, o || { weekday: 'long', month: 'long', day: 'numeric' }) : '';
+const fmtTime = (hm) => { if (!hm) return ''; const [h, m] = hm.split(':').map(Number); return new Date(2000, 0, 1, h, m).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); };
+const mmss = (s) => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return (h ? h + ':' + pad(m) : m) + ':' + pad(s % 60); };
+
+const KEY = (() => {
+  const fromHash = new URLSearchParams(location.hash.slice(1)).get('k');
+  if (fromHash) store.set('cnKey', fromHash);
+  return fromHash || store.get('cnKey', '');
+})();
+if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+
+// ====================================================================================
+// API
+// ====================================================================================
+let queue = Promise.resolve();
+function api(action, params) {
+  if (DEMO) return Demo.call(action, params || {});
+  const run = () => fetch(API, {
+    method: 'POST', redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(Object.assign({ k: KEY, action }, params || {})),
+  }).then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then((t) => {
+      if (t.trim() === 'Not authorized') throw new Error('auth');
+      const r = JSON.parse(t);
+      if (!r.ok) throw new Error(r.error || 'Something went wrong.');
+      return r;
+    });
+  if (/^(home|gathering|mediaView|transcript|process|summarize|verse)$/.test(action)) return run();
+  const p = queue.then(run, run);
+  queue = p.catch(() => {});
+  return p;
+}
+function errText(e) {
+  const m = e && e.message || '';
+  if (m === 'auth') return 'This link’s key is off. Open your full Church Notes link again.';
+  if (/HTTP|fetch|NetworkError|Load failed|JSON/i.test(m)) return 'Can’t reach your notes right now.';
+  return m || 'Something went wrong.';
+}
+let toastT;
+function toast(msg, ms) {
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms || 2600);
+}
+
+// ====================================================================================
+// State
+// ====================================================================================
+const S = { home: null, g: null, items: [], actions: [], tab: 'notes', target: null, settings: {} };
+
+function todayYmd() { return ymd(new Date()); }
+function isSunday() { return new Date().getDay() === 0; }
+
+/** Where a new capture goes: today's Sunday service; else a gathering already started today; else ask. */
+function autoTarget() {
+  if (S.target && S.target.date === todayYmd()) return S.target;
+  const gs = (S.home && S.home.gatherings) || [];
+  const today = gs.filter((g) => g.date === todayYmd());
+  if (today.length) return today[0];
+  if (isSunday()) return { pending: true, kind: 'sunday', date: todayYmd(), title: 'Sunday Service' };
+  return null;
+}
+async function resolveTarget(t) {
+  if (!t) return null;
+  if (!t.pending) return t;
+  const r = await api('ensureGathering', { kind: t.kind, date: t.date, title: t.title });
+  S.target = r.gathering;
+  return r.gathering;
+}
+function setTarget(g) { S.target = g; renderTarget(); }
+function renderTarget() {
+  const t = S.target || autoTarget();
+  $('targetLabel').textContent = t ? (t.title + ' · ' + fmtDate(t.date, { month: 'short', day: 'numeric' })) : 'Choose where this goes';
+}
+
+/** Asks where captures should go (used when it isn't Sunday and nothing was started today). */
+function pickTarget(then) {
+  const gs = ((S.home && S.home.gatherings) || []).slice(0, 6);
+  openSheet(`<h2>Where does this go?</h2><p class="lead">Captures are kept together by Sunday or meeting.</p>
+    <div class="menu">
+      <button data-new="sunday">${icon('i-cross')}<span>Sunday Service — today<small>${esc(fmtDate(todayYmd()))}</small></span></button>
+      <button data-new="meeting">${icon('i-people')}<span>New meeting — today<small>Bible study, ministry, board…</small></span></button>
+      <button data-new="event">${icon('i-cal')}<span>Other church event — today</span></button>
+      ${gs.map((g) => `<button data-id="${esc(g.id)}">${icon(g.kind === 'meeting' ? 'i-people' : 'i-book')}<span>${esc(g.title)}<small>${esc(fmtDate(g.date))}</small></span></button>`).join('')}
+    </div>`, (el) => {
+    el.querySelectorAll('[data-id]').forEach((b) => b.onclick = () => { const g = gs.find((x) => x.id === b.dataset.id); setTarget(g); closeSheet(); then && then(g); });
+    el.querySelectorAll('[data-new]').forEach((b) => b.onclick = () => {
+      const kind = b.dataset.new;
+      if (kind === 'sunday') { const t = { pending: true, kind, date: todayYmd(), title: 'Sunday Service' }; setTarget(t); closeSheet(); then && then(t); return; }
+      newGatheringSheet(kind, (g) => { setTarget(g); then && then(g); });
+    });
+  });
+}
+
+function newGatheringSheet(kind, done) {
+  openSheet(`<h2>${kind === 'meeting' ? 'New meeting' : 'New church event'}</h2>
+    <label class="field"><span>Name</span><input id="ngTitle" placeholder="${kind === 'meeting' ? 'e.g. Men’s ministry meeting' : 'e.g. Wednesday Bible study'}"></label>
+    <label class="field"><span>Date</span><input id="ngDate" type="date" value="${todayYmd()}"></label>
+    <div class="row" style="margin-top:16px"><button class="pbtn" id="ngGo" style="justify-content:center">Start</button></div>`, (el) => {
+    el.querySelector('#ngTitle').focus();
+    el.querySelector('#ngGo').onclick = async () => {
+      const title = el.querySelector('#ngTitle').value.trim() || KINDS[kind];
+      try {
+        const r = await api('ensureGathering', { kind, date: el.querySelector('#ngDate').value || todayYmd(), title, forceNew: true });
+        closeSheet(); toast('Started “' + r.gathering.title + '”'); loadHome(); done && done(r.gathering);
+      } catch (e) { toast(errText(e)); }
+    };
+  });
+}
+
+/** Runs fn(gathering) with a resolved capture target, asking first if needed. */
+async function withTarget(fn, preferId) {
+  try {
+    if (preferId) return fn(S.g && S.g.id === preferId ? S.g : await resolveTarget({ id: preferId }));
+    let t = S.target || autoTarget();
+    if (!t) return pickTarget(async (g) => fn(await resolveTarget(g)));
+    t = await resolveTarget(t);
+    setTarget(t);
+    return fn(t);
+  } catch (e) { toast(errText(e)); }
+}
+
+// ====================================================================================
+// Home
+// ====================================================================================
+async function loadHome() {
+  try {
+    const r = await api('home');
+    S.home = r; S.settings = r.settings || {};
+    renderHome();
+  } catch (e) {
+    $('gList').innerHTML = `<div class="card empty"><h2>Can’t load your notes.</h2><p>${esc(errText(e))}</p></div>`;
+  }
+}
+
+function renderHome() {
+  const h = S.home;
+  const now = new Date();
+  const sunday = isSunday();
+  const hour = now.getHours();
+  $('heroEyebrow').textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
+  $('heroTitle').innerHTML = sunday ? (hour < 12 ? 'Good morning. <em>Ready for church?</em>' : hour < 17 ? 'Sunday notes, <em>all in one place.</em>' : 'What did the Word <em>say today?</em>')
+    : 'Keep every word <em>from church.</em>';
+  renderTarget();
+  // coming up
+  const up = (h.upcoming || []).slice(0, 6);
+  $('upcomingWrap').classList.toggle('hidden', !up.length);
+  $('upcoming').innerHTML = up.map(actionCard).join('');
+  bindActionCards($('upcoming'));
+  // list
+  const gs = h.gatherings || [];
+  $('gList').innerHTML = gs.length ? gs.map((g) => {
+    const d = parseYmd(g.date);
+    const c = g.counts || {};
+    const pills = [
+      c.items ? `<span class="pill">${c.items} capture${c.items > 1 ? 's' : ''}</span>` : '',
+      c.pending ? `<span class="pill gold"><span class="spin" style="width:10px;height:10px"></span> working</span>` : '',
+      c.verses ? `<span class="pill">${icon('i-book')}${c.verses}</span>` : '',
+      c.songs ? `<span class="pill">${icon('i-music')}${c.songs}</span>` : '',
+      g.status === 'summarized' ? `<span class="pill sage">${icon('i-check')}Notes ready</span>` : g.status === 'stale' ? `<span class="pill wine">New captures</span>` : '',
+    ].join('');
+    return `<button class="card gcard" data-g="${esc(g.id)}">
+      <div class="cal"><small>${d.toLocaleDateString(undefined, { month: 'short' })}</small><b>${d.getDate()}</b></div>
+      <div class="t"><b>${esc(g.messageTitle || g.title)}</b><p>${esc(g.headline || (g.messageTitle ? g.title : KINDS[g.kind] + ' · ' + fmtDate(g.date, { weekday: 'long' })))}</p><div class="meta">${pills}</div></div>
+    </button>`;
+  }).join('') : `<div class="card empty"><h2>Nothing yet.</h2><p>On Sunday, tap <b>Record the message</b>. You can also share a voicemail or a Samsung Notes recording to Church Notes from those apps.</p></div>`;
+  $('gList').querySelectorAll('[data-g]').forEach((b) => b.onclick = () => openGathering(b.dataset.g));
+}
+
+// ====================================================================================
+// Gathering
+// ====================================================================================
+let pollT = null;
+async function openGathering(id, tab) {
+  S.tab = tab || S.tab || 'notes';
+  show('vGathering');
+  history.pushState({ v: 'g', id }, '', '?g=' + encodeURIComponent(id));
+  $('gBody').innerHTML = '<div class="empty"><span class="spin"></span></div>';
+  await loadGathering(id);
+}
+async function loadGathering(id) {
+  try {
+    const r = await api('gathering', { id });
+    S.g = r.gathering; S.items = r.items; S.actions = r.actions;
+    renderGathering();
+    keepProcessing();
+  } catch (e) { $('gBody').innerHTML = `<div class="empty"><h2>Can’t open this.</h2><p>${esc(errText(e))}</p></div>`; }
+}
+
+function renderGathering() {
+  const g = S.g;
+  $('gTitle').textContent = g.title;
+  $('gDate').textContent = fmtDate(g.date) + ' · ' + KINDS[g.kind];
+  document.querySelectorAll('#gTabs button').forEach((b) => b.classList.toggle('on', b.dataset.tab === S.tab));
+  const dated = S.actions.filter((a) => a.status !== 'dismissed').length;
+  document.querySelector('#gTabs [data-tab="captures"]').textContent = 'Captures' + (S.items.length ? ' · ' + S.items.length : '');
+  document.querySelector('#gTabs [data-tab="dates"]').textContent = 'Dates' + (dated ? ' · ' + dated : '');
+  const body = $('gBody');
+  if (S.tab === 'notes') body.innerHTML = notesHtml();
+  else if (S.tab === 'captures') body.innerHTML = capturesHtml();
+  else body.innerHTML = datesHtml();
+  bindGathering(body);
+}
+
+function summaryBanner() {
+  const g = S.g;
+  const pending = S.items.filter((it) => it.stage !== 'done' && it.stage !== 'failed').length;
+  const done = S.items.filter((it) => it.stage === 'done').length;
+  if (!S.items.length) return `<div class="card empty"><h2>Nothing captured yet.</h2><p>Tap <b>Capture</b> to record the message, mark a verse or song, snap the bulletin, or type a note.</p></div>`;
+  let t, btn;
+  if (S.summarizing) { t = '<b>Writing your notes…</b>Reading everything you captured. About a minute.'; btn = `<button class="pbtn" disabled><span class="spin"></span></button>`; }
+  else if (pending) { t = `<b>${pending} capture${pending > 1 ? 's' : ''} still being transcribed</b>You can build notes now, or wait for ${pending > 1 ? 'them' : 'it'}.`; btn = done ? `<button class="pbtn ghost" id="btnSum">${icon('i-spark')}Build now</button>` : `<span class="spin"></span>`; }
+  else if (g.status === 'summarized') return '';
+  else if (g.status === 'stale') { t = '<b>New captures since your notes</b>Update to fold them in.'; btn = `<button class="pbtn" id="btnSum">${icon('i-spark')}Update</button>`; }
+  else { t = `<b>${done} capture${done > 1 ? 's' : ''} ready</b>Turn them into notes: the message, verses, songs and dates.`; btn = `<button class="pbtn" id="btnSum">${icon('i-spark')}Build notes</button>`; }
+  return `<div class="card banner"><div class="t">${t}</div>${btn}</div>`;
+}
+
+function notesHtml() {
+  const s = S.g.summary || {};
+  const m = s.message || {};
+  const H = [summaryBanner()];
+  if (!s.headline && !m.title) {
+    if (S.items.length) H.push(`<p class="center muted" style="margin-top:20px">Your notes for this ${S.g.kind === 'sunday' ? 'Sunday' : 'gathering'} will show here.</p>`);
+    return H.join('');
+  }
+  if (m.title || m.bigIdea) {
+    H.push(`<article class="card msg">
+      <div class="eyebrow">${S.g.kind === 'sunday' ? 'The message' : 'Summary'}</div>
+      <h1>${esc(m.title || s.headline)}</h1>
+      <div class="by">${esc([m.speaker, m.mainScripture].filter(Boolean).join(' · '))}</div>
+      ${m.bigIdea ? `<div class="bigidea">${esc(m.bigIdea)}</div>` : ''}
+      ${(m.points || []).length ? `<ol class="points">${m.points.map((p) => `<li><b>${esc(p.heading)}</b><p>${esc(p.detail)}</p>${p.scripture ? `<span class="ref">${esc(p.scripture)}</span>` : ''}</li>`).join('')}</ol>` : ''}
+      ${(m.quotes || []).length ? `<div class="sub">Worth remembering</div>${m.quotes.map((q) => `<div class="quote">“${esc(q)}”</div>`).join('')}` : ''}
+      ${(m.application || []).length ? `<div class="sub">This week</div><ul class="clean">${m.application.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      ${(m.reflectionQuestions || []).length ? `<div class="sub">To reflect on</div><ul class="clean">${m.reflectionQuestions.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    </article>`);
+  } else if (s.headline) {
+    H.push(`<article class="card msg"><div class="eyebrow">Summary</div><h1>${esc(s.headline)}</h1></article>`);
+  }
+  const mt = s.meeting || {};
+  if (mt.purpose || (mt.decisions || []).length || (mt.actionItems || []).length) {
+    H.push(`<article class="card msg" style="margin-top:12px"><div class="eyebrow">Meeting</div>
+      ${mt.purpose ? `<p style="margin:8px 0 0">${esc(mt.purpose)}</p>` : ''}
+      ${(mt.decisions || []).length ? `<div class="sub">Decided</div><ul class="clean">${mt.decisions.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      ${(mt.actionItems || []).length ? `<div class="sub">To do</div><ul class="clean">${mt.actionItems.map((x) => `<li>${esc(x.task)}${x.who ? ` — <b>${esc(x.who)}</b>` : ''}${x.due ? ` <span class="muted">(by ${esc(fmtDate(x.due, { month: 'short', day: 'numeric' }))})</span>` : ''}</li>`).join('')}</ul>` : ''}
+      ${(mt.openQuestions || []).length ? `<div class="sub">Still open</div><ul class="clean">${mt.openQuestions.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    </article>`);
+  }
+  if ((s.verses || []).length) {
+    H.push(`<div class="sec"><h2>Scripture</h2></div><div class="list">${s.verses.map(verseCard).join('')}</div>`);
+  }
+  if ((s.songs || []).length) {
+    H.push(`<div class="sec"><h2>Songs</h2></div><div class="list">${s.songs.map(songCard).join('')}</div>`);
+  }
+  const ann = S.actions.filter((a) => a.status !== 'dismissed');
+  if (ann.length) H.push(`<div class="sec"><h2>Announcements</h2><button data-tab-go="dates">All dates</button></div><div class="list">${ann.slice(0, 5).map(actionCard).join('')}</div>`);
+  const info = (s.announcements || []).filter((a) => a.kind === 'info');
+  if (info.length) H.push(`<div class="card msg" style="margin-top:10px;padding:16px 18px"><div class="sub" style="margin-top:0">Also mentioned</div><ul class="clean">${info.map((a) => `<li><b>${esc(a.title)}</b>${a.details ? ' — ' + esc(a.details) : ''}</li>`).join('')}</ul></div>`);
+  if ((s.prayerRequests || []).length) H.push(`<div class="card msg" style="margin-top:10px;padding:16px 18px"><div class="sub" style="margin-top:0">Prayer</div><ul class="clean">${s.prayerRequests.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
+  H.push(`<p class="center muted" style="font-size:13px;margin-top:24px">${s.translation ? 'Scripture: ' + esc(s.translation) + ' · ' : ''}<button style="color:var(--wine);font-weight:600" id="btnResum">Rebuild notes</button></p>`);
+  return H.join('');
+}
+
+function verseText(v) {
+  // "16 For God so loved… 17 For God sent…" -> superscript numbers
+  return esc(v.text || '').replace(/(^|\s)(\d{1,3}) (?=\S)/g, '$1<sup>$2</sup>');
+}
+function verseCard(v) {
+  return `<div class="card verse${(v.text || '').length > 420 ? ' collapsed' : ''}" data-verse>
+    <b>${esc(v.reference)}</b>${v.context || v.note ? ` <span class="ctx">— ${esc(v.context || v.note)}</span>` : ''}
+    ${v.text ? `<p>${verseText(v)}</p><div class="tr">${esc(v.translation || '')}</div>` : '<p class="muted" style="font-family:var(--sans);font-size:14px">Text not found for this reference.</p>'}
+  </div>`;
+}
+function songCard(x) {
+  const q = encodeURIComponent([x.title, x.artist].filter(Boolean).join(' '));
+  return `<div class="card song"><span class="note">${icon('i-music')}</span>
+    <div class="t"><b>${esc(x.title)}</b><small>${esc(x.artist || '')}${x.confident === false ? ' · best guess' : ''}</small></div>
+    <a href="${esc(x.youtube || 'https://www.youtube.com/results?search_query=' + q)}" target="_blank" rel="noopener">YouTube</a>
+    <a href="${esc(x.spotify || 'https://open.spotify.com/search/' + q)}" target="_blank" rel="noopener">Spotify</a>
+  </div>`;
+}
+
+function itemIcon(it) {
+  if (it.source === 'voicemail') return 'i-phone';
+  if (it.kind === 'photo') return 'i-camera';
+  if (it.kind === 'doc') return 'i-file';
+  if (it.kind === 'note') return 'i-pen';
+  return (LABELS[it.label] || LABELS.general).i;
+}
+function stagePill(it) {
+  if (it.stage === 'done') return '';
+  if (it.stage === 'failed') return `<span class="pill wine">Couldn’t finish — tap to retry</span>`;
+  const words = { queued: 'Waiting', sent: 'Listening', transcribed: 'Reading' }[it.stage] || 'Working';
+  return `<span class="pill gold"><span class="spin" style="width:10px;height:10px"></span> ${words}…</span>`;
+}
+function capturesHtml() {
+  if (!S.items.length) return summaryBanner();
+  return `<div class="list">${S.items.slice().sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt))).map((it) => {
+    const r = it.result || {};
+    const when = new Date(it.createdAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    const sub = r.gist || it.text || (it.stage === 'done' ? '' : 'It’ll be ready in a minute or two.');
+    const pills = [
+      `<span class="pill">${esc(LABELS[it.label] ? LABELS[it.label].l : 'Note')}</span>`,
+      it.source !== 'app' && it.source !== 'typed' ? `<span class="pill">${esc(SOURCES[it.source])}</span>` : '',
+      it.durationSec ? `<span class="pill">${mmss(it.durationSec)}</span>` : '',
+      ...(r.verses || []).slice(0, 3).map((v) => `<span class="pill gold">${icon('i-book')}${esc(v.reference)}</span>`),
+      ...(r.songs || []).slice(0, 2).map((x) => `<span class="pill gold">${icon('i-music')}${esc(x.title)}</span>`),
+      stagePill(it),
+    ].join('');
+    return `<button class="card icard" data-item="${esc(it.id)}"><span class="ico">${icon(itemIcon(it))}</span>
+      <div class="t"><b>${esc(r.title || (LABELS[it.label] || LABELS.general).l)}</b> <span class="muted" style="font-size:13px">${when}</span><p>${esc(sub)}</p><div class="meta">${pills}</div></div></button>`;
+  }).join('')}</div>`;
+}
+
+function datesHtml() {
+  const list = S.actions.slice().sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')));
+  const live = list.filter((a) => a.status !== 'dismissed');
+  const gone = list.filter((a) => a.status === 'dismissed');
+  return `${live.length ? `<div class="list">${live.map(actionCard).join('')}</div>` : `<div class="card empty"><h2>No dates yet.</h2><p>Events and deadlines from the announcements show up here after you build notes. Add one yourself any time.</p></div>`}
+    <div class="center" style="margin:16px 0"><button class="pbtn ghost" id="btnAddDate">${icon('i-plus')}Add a date</button></div>
+    ${gone.length ? `<div class="sec"><h2 style="font-size:16px">Dismissed</h2></div><div class="list">${gone.map(actionCard).join('')}</div>` : ''}`;
+}
+
+function actionCard(a) {
+  const d = a.date ? parseYmd(a.date) : null;
+  const kindWord = { event: '', deadline: 'Deadline · ', todo: 'To do · ', info: '' }[a.kind] || '';
+  const added = !!a.calendarEventId;
+  const dismissed = a.status === 'dismissed';
+  return `<div class="card acard" data-action="${esc(a.id)}" style="${dismissed ? 'opacity:.55' : ''}">
+    <div class="when">${d ? `<small>${d.toLocaleDateString(undefined, { weekday: 'short' })}</small><b>${d.getDate()}</b><small>${d.toLocaleDateString(undefined, { month: 'short' })}</small>` : `<small>No date</small>`}</div>
+    <div class="t"><b>${esc(a.title)}</b>
+      <p>${esc(kindWord)}${esc([a.time ? fmtTime(a.time) + (a.endTime ? '–' + fmtTime(a.endTime) : '') : '', a.location].filter(Boolean).join(' · '))}${a.details ? `<br>${esc(a.details)}` : ''}</p>
+      <div class="btns">
+        ${dismissed ? `<button class="sbtn" data-act="restore">Restore</button>` : `
+        ${a.kind === 'todo' ? `<button class="sbtn" data-act="done">${icon('i-check')}Done</button>` : added ? `<button class="sbtn ok" data-act="uncal">${icon('i-check')}On calendar</button>` : `<button class="sbtn on" data-act="cal">${icon('i-calplus')}Add to calendar</button>`}
+        <button class="sbtn" data-act="edit">Edit</button>
+        <button class="sbtn" data-act="dismiss">Not for me</button>`}
+        ${a.briefingTaskId && !dismissed ? `<span class="pill sage" style="align-self:center">${icon('i-mic')}In your briefing</span>` : ''}
+      </div>
+    </div></div>`;
+}
+function findAction(id) {
+  return S.actions.find((a) => a.id === id) || ((S.home && S.home.upcoming) || []).find((a) => a.id === id);
+}
+function replaceAction(a) {
+  const i = S.actions.findIndex((x) => x.id === a.id); if (i >= 0) S.actions[i] = a; else if (S.g && a.gatheringId === S.g.id) S.actions.push(a);
+  if (S.home) { const j = (S.home.upcoming || []).findIndex((x) => x.id === a.id); if (j >= 0) S.home.upcoming[j] = a; }
+}
+function bindActionCards(root) {
+  root.querySelectorAll('[data-action]').forEach((card) => {
+    const id = card.dataset.action;
+    card.querySelectorAll('[data-act]').forEach((b) => b.onclick = async (ev) => {
+      ev.stopPropagation();
+      const act = b.dataset.act;
+      const a = findAction(id);
+      if (act === 'edit') return editActionSheet(a);
+      b.disabled = true;
+      try {
+        let r;
+        if (act === 'cal') { r = await api('addToCalendar', { id }); toast('Added to your Google Calendar'); buzz(15); }
+        else if (act === 'uncal') { if (!confirm('Take this off your calendar?')) { b.disabled = false; return; } r = await api('removeFromCalendar', { id }); }
+        else if (act === 'dismiss') r = await api('updateAction', { id, patch: { status: 'dismissed' } });
+        else if (act === 'restore') r = await api('updateAction', { id, patch: { status: 'suggested' } });
+        else if (act === 'done') r = await api('updateAction', { id, patch: { status: 'done' } });
+        replaceAction(r.action);
+        rerender();
+      } catch (e) { toast(errText(e)); b.disabled = false; }
+    });
+  });
+}
+function rerender() {
+  if (!$('vGathering').classList.contains('hidden')) renderGathering();
+  else if (S.home) { S.home.upcoming = (S.home.upcoming || []).filter((a) => a.status !== 'dismissed' && a.status !== 'done'); renderHome(); }
+}
+
+function editActionSheet(a) {
+  const isNew = !a;
+  a = a || { title: '', date: '', time: '', endTime: '', location: '', details: '', kind: 'event' };
+  openSheet(`<h2>${isNew ? 'Add a date' : 'Edit'}</h2>
+    <label class="field"><span>What</span><input id="aTitle" value="${esc(a.title)}" placeholder="e.g. Fall festival"></label>
+    <div class="row"><label class="field"><span>Date</span><input id="aDate" type="date" value="${esc(a.date)}"></label>
+      <label class="field"><span>Kind</span><select id="aKind">${['event', 'deadline', 'todo', 'info'].map((k) => `<option value="${k}"${a.kind === k ? ' selected' : ''}>${{ event: 'Event', deadline: 'Deadline', todo: 'To do', info: 'Just info' }[k]}</option>`).join('')}</select></label></div>
+    <div class="row"><label class="field"><span>Starts</span><input id="aTime" type="time" value="${esc(a.time)}"></label><label class="field"><span>Ends</span><input id="aEnd" type="time" value="${esc(a.endTime)}"></label></div>
+    <label class="field"><span>Where</span><input id="aLoc" value="${esc(a.location)}" placeholder="Fellowship hall"></label>
+    <label class="field"><span>Details</span><textarea id="aDet" style="min-height:80px">${esc(a.details)}</textarea></label>
+    <div class="row" style="margin-top:14px"><button class="pbtn" id="aSave" style="justify-content:center">Save</button></div>
+    ${a.calendarEventId ? '<p class="muted" style="font-size:13px">Already on your calendar: change it there too, or take it off and add it again.</p>' : ''}`, (el) => {
+    el.querySelector('#aSave').onclick = async () => {
+      const patch = { title: el.querySelector('#aTitle').value, date: el.querySelector('#aDate').value, kind: el.querySelector('#aKind').value,
+        time: el.querySelector('#aTime').value, endTime: el.querySelector('#aEnd').value, location: el.querySelector('#aLoc').value, details: el.querySelector('#aDet').value };
+      try {
+        const r = isNew ? await api('addAction', { gatheringId: S.g.id, action: patch }) : await api('updateAction', { id: a.id, patch });
+        replaceAction(r.action); closeSheet(); rerender();
+      } catch (e) { toast(errText(e)); }
+    };
+  });
+}
+
+function bindGathering(body) {
+  bindActionCards(body);
+  body.querySelectorAll('[data-item]').forEach((b) => b.onclick = () => itemSheet(S.items.find((x) => x.id === b.dataset.item)));
+  body.querySelectorAll('[data-tab-go]').forEach((b) => b.onclick = () => { S.tab = b.dataset.tabGo; renderGathering(); scrollTo(0, 0); });
+  body.querySelectorAll('[data-verse]').forEach((v) => v.onclick = () => v.classList.remove('collapsed'));
+  const sum = body.querySelector('#btnSum') || body.querySelector('#btnResum');
+  if (sum) sum.onclick = buildSummary;
+  const add = body.querySelector('#btnAddDate');
+  if (add) add.onclick = () => editActionSheet(null);
+}
+
+async function buildSummary() {
+  if (S.summarizing) return;
+  S.summarizing = true; S.tab = 'notes'; renderGathering();
+  try {
+    const r = await api('summarize', { id: S.g.id });
+    S.g = r.gathering; S.actions = r.actions;
+    toast('Your notes are ready'); buzz([10, 40, 10]);
+  } catch (e) { toast(errText(e), 4000); }
+  S.summarizing = false;
+  renderGathering();
+}
+
+/** Keeps calling "process" for unfinished captures while this gathering is open (the backend timer finishes them otherwise). */
+let processing = false;
+async function keepProcessing() {
+  if (processing) return;
+  processing = true;
+  try {
+    for (let round = 0; round < 80; round++) {
+      if (!S.g || $('vGathering').classList.contains('hidden')) break;
+      const todo = S.items.filter((it) => it.stage !== 'done' && it.stage !== 'failed');
+      if (!todo.length) break;
+      for (const it of todo) {
+        let r;
+        try { r = await api('process', { id: it.id }); } catch (e) { await sleep(5000); continue; }
+        const i = S.items.findIndex((x) => x.id === it.id);
+        if (i >= 0 && S.g && r.item.gatheringId === S.g.id) S.items[i] = r.item;
+        if (r.item.stage === 'done' && S.g.status === 'summarized') S.g.status = 'stale';
+        if (r.item.busy) await sleep(6000);
+        if (!$('sheet').classList.contains('show')) renderGathering();
+      }
+      await sleep(1500);
+    }
+  } finally { processing = false; }
+}
+
+function itemSheet(it) {
+  if (!it) return;
+  const r = it.result || {};
+  const words = it.transcript || it.text || '';
+  openSheet(`<h2>${esc(r.title || (LABELS[it.label] || LABELS.general).l)}</h2>
+    <p class="lead">${esc(new Date(it.createdAt).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' }))} · ${esc(SOURCES[it.source] || '')}${it.durationSec ? ' · ' + mmss(it.durationSec) : ''}</p>
+    ${it.stage === 'failed' ? `<div class="card banner" style="border-color:var(--wine)"><div class="t"><b>This one didn’t finish.</b>${esc(String(it.error || '').replace(/^\(\d+\)\s*/, ''))}</div><button class="pbtn" id="iRetry">${icon('i-redo')}Retry</button></div>` : ''}
+    ${r.gist ? `<p>${esc(r.gist)}</p>` : ''}
+    ${it.kind === 'photo' ? '<div id="iPhoto" class="center"><span class="spin"></span></div>' : ''}
+    ${(r.verses || []).length ? `<div class="list" style="margin:10px 0">${r.verses.map(verseCard).join('')}</div>` : ''}
+    ${(r.songs || []).length ? `<div class="list" style="margin:10px 0">${r.songs.map(songCard).join('')}</div>` : ''}
+    ${(it.markers || []).length ? `<div class="sub">Your marks</div><div class="chips">${it.markers.map((m) => `<span class="chip">${icon((LABELS[m.label] || LABELS.general).i)}${mmss(m.t)} ${esc(m.label === 'general' ? 'Key point' : (LABELS[m.label] || {}).l)}</span>`).join('')}</div>` : ''}
+    ${words ? `<div class="sub">${it.transcript ? 'What was said' : 'Text'}</div><div class="transcript" id="iWords">${esc(words)}${it.longTranscript ? '\n\n…' : ''}</div>${it.longTranscript ? '<p class="center"><button class="sbtn" id="iFull">Show the full transcript</button></p>' : ''}` : ''}
+    <div class="sub">What is it?</div>
+    <div class="chips" id="iLabel">${Object.keys(LABELS).map((k) => `<button class="chip${it.label === k ? ' on' : ''}" data-l="${k}">${icon(LABELS[k].i)}${LABELS[k].l}</button>`).join('')}</div>
+    <div class="menu" style="margin-top:14px">
+      ${it.hasFile ? `<button id="iDrive">${icon('i-ext')}<span>Open the file in Drive<small>Listen to the recording or see the original</small></span></button>` : ''}
+      <button id="iMove">${icon('i-move')}<span>Move to another Sunday or meeting</span></button>
+      <button id="iDel" class="danger">${icon('i-trash')}<span>Delete this capture</span></button>
+    </div>`, (el) => {
+    const q = (s) => el.querySelector(s);
+    if (q('#iRetry')) q('#iRetry').onclick = async () => { try { const x = await api('retryItem', { id: it.id }); updateItem(x.item); closeSheet(); keepProcessing(); } catch (e) { toast(errText(e)); } };
+    if (q('#iFull')) q('#iFull').onclick = async () => { try { const x = await api('transcript', { id: it.id }); q('#iWords').textContent = x.text; q('#iFull').remove(); } catch (e) { toast(errText(e)); } };
+    el.querySelectorAll('[data-l]').forEach((b) => b.onclick = async () => {
+      if (b.dataset.l === it.label) return;
+      try { const x = await api('updateItem', { id: it.id, patch: { label: b.dataset.l } }); updateItem(x.item); closeSheet(); toast('Changed. Re-reading it…'); keepProcessing(); } catch (e) { toast(errText(e)); }
+    });
+    if (q('#iDrive')) q('#iDrive').onclick = async () => { try { const x = await api('mediaView', { id: it.id }); if (x.driveUrl) window.open(x.driveUrl, '_blank'); } catch (e) { toast(errText(e)); } };
+    q('#iMove').onclick = () => {
+      const gs = ((S.home && S.home.gatherings) || []).filter((g) => g.id !== it.gatheringId);
+      openSheet(`<h2>Move to…</h2><div class="menu">${gs.map((g) => `<button data-to="${esc(g.id)}">${icon(g.kind === 'meeting' ? 'i-people' : 'i-book')}<span>${esc(g.title)}<small>${esc(fmtDate(g.date))}</small></span></button>`).join('') || '<p class="muted">No other Sundays or meetings yet.</p>'}</div>`, (el2) => {
+        el2.querySelectorAll('[data-to]').forEach((b) => b.onclick = async () => {
+          try { await api('updateItem', { id: it.id, patch: { gatheringId: b.dataset.to } }); S.items = S.items.filter((x) => x.id !== it.id); closeSheet(); toast('Moved'); renderGathering(); } catch (e) { toast(errText(e)); }
+        });
+      });
+    };
+    q('#iDel').onclick = async () => {
+      if (!confirm('Delete this capture? Its recording or photo goes to your Drive trash.')) return;
+      try { await api('deleteItem', { id: it.id }); S.items = S.items.filter((x) => x.id !== it.id); if (S.g.status === 'summarized') S.g.status = 'stale'; closeSheet(); renderGathering(); } catch (e) { toast(errText(e)); }
+    };
+    if (it.kind === 'photo') api('mediaView', { id: it.id }).then((x) => {
+      const box = q('#iPhoto'); if (!box) return;
+      box.innerHTML = x.data ? `<img class="photo" src="data:${x.mime};base64,${x.data}" alt="Your photo">` : (x.thumb ? `<img class="photo" src="${x.thumb}" alt="">` : '');
+    }).catch(() => { const box = q('#iPhoto'); if (box) box.innerHTML = ''; });
+  });
+}
+function updateItem(item) { const i = S.items.findIndex((x) => x.id === item.id); if (i >= 0) S.items[i] = item; renderGathering(); }
+
+function gatheringMenu() {
+  const g = S.g;
+  openSheet(`<h2>${esc(g.title)}</h2>
+    <label class="field"><span>Name</span><input id="gmTitle" value="${esc(g.title)}"></label>
+    <div class="row"><label class="field"><span>Date</span><input id="gmDate" type="date" value="${esc(g.date)}"></label>
+    <label class="field"><span>Kind</span><select id="gmKind">${Object.keys(KINDS).map((k) => `<option value="${k}"${g.kind === k ? ' selected' : ''}>${KINDS[k]}</option>`).join('')}</select></label></div>
+    <label class="field"><span>Your notes for the day (optional, used in the summary)</span><textarea id="gmNotes" style="min-height:80px" placeholder="Guest speaker, special service, how you felt…">${esc(g.notes || '')}</textarea></label>
+    <div class="row"><button class="pbtn" id="gmSave" style="justify-content:center">Save</button></div>
+    <div class="menu" style="margin-top:12px">
+      <button id="gmEmail">${icon('i-mail')}<span>Email me this week’s recap now</span></button>
+      <button id="gmDel" class="danger">${icon('i-trash')}<span>Delete this ${g.kind === 'sunday' ? 'Sunday' : 'gathering'}<small>Its recordings and photos go to your Drive trash</small></span></button>
+    </div>`, (el) => {
+    el.querySelector('#gmSave').onclick = async () => {
+      try {
+        const r = await api('updateGathering', { id: g.id, patch: { title: el.querySelector('#gmTitle').value, date: el.querySelector('#gmDate').value, kind: el.querySelector('#gmKind').value, notes: el.querySelector('#gmNotes').value } });
+        S.g = Object.assign(S.g, r.gathering); closeSheet(); renderGathering();
+      } catch (e) { toast(errText(e)); }
+    };
+    el.querySelector('#gmEmail').onclick = async () => { try { await api('emailRecap'); closeSheet(); toast('Recap sent to your Gmail'); } catch (e) { toast(errText(e), 4000); } };
+    el.querySelector('#gmDel').onclick = async () => {
+      if (!confirm('Delete “' + g.title + '” and everything captured there?')) return;
+      try { await api('deleteGathering', { id: g.id }); closeSheet(); goHome(); } catch (e) { toast(errText(e)); }
+    };
+  });
+}
+
+// ====================================================================================
+// Capture menu
+// ====================================================================================
+function captureMenu(gid) {
+  openSheet(`<h2>Capture</h2><p class="lead">${esc(S.g ? S.g.title + ' · ' + fmtDate(S.g.date, { month: 'short', day: 'numeric' }) : '')}</p>
+    <div class="menu">
+      <button data-c="record">${icon('i-mic')}<span>Record the message<small>The whole sermon, with Verse / Song marks</small></span></button>
+      <button data-c="verse">${icon('i-book')}<span>Quick verse<small>Record just the scripture being read</small></span></button>
+      <button data-c="song">${icon('i-music')}<span>Quick song<small>A few seconds of singing is enough to name it</small></span></button>
+      <button data-c="announcement">${icon('i-mega')}<span>Record announcements</span></button>
+      <button data-c="photo">${icon('i-camera')}<span>Photo of the bulletin or a slide</span></button>
+      <button data-c="note">${icon('i-pen')}<span>Type or dictate a note</span></button>
+      <button data-c="file">${icon('i-file')}<span>Add a file<small>Voicemail audio, a Samsung Notes recording, a PDF</small></span></button>
+    </div>`, (el) => {
+    el.querySelectorAll('[data-c]').forEach((b) => b.onclick = () => { closeSheet(); doQuick(b.dataset.c, gid); });
+  });
+}
+
+function doQuick(what, gid) {
+  if (what === 'record') return withTarget((g) => startRecording(g, 'message'), gid);
+  if (what === 'verse' || what === 'song' || what === 'announcement') return withTarget((g) => startRecording(g, what), gid);
+  if (what === 'photo') return withTarget((g) => { pendingPhotoG = g; $('filePhoto').click(); }, gid);
+  if (what === 'note') return withTarget((g) => noteSheet(g), gid);
+  if (what === 'file') return withTarget((g) => { pendingFileG = g; $('fileAny').click(); }, gid);
+}
+
+// ====================================================================================
+// Recorder (MediaRecorder, chunks saved to IndexedDB as it goes)
+// ====================================================================================
+const R = { rec: null, stream: null, id: null, g: null, label: 'message', start: 0, paused: 0, pauseAt: 0, markers: [], mime: '', timer: null, wake: null, chunkN: 0, raf: null, ctx: null };
+
+async function startRecording(g, label) {
+  if (R.rec) return;
+  if (!navigator.mediaDevices || !window.MediaRecorder) return toast('This browser can’t record audio.');
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: true } }); }
+  catch (e) { return toast('Allow the microphone to record.'); }
+  const mime = REC_TYPES.find((t) => MediaRecorder.isTypeSupported(t)) || '';
+  const rec = new MediaRecorder(stream, mime ? { mimeType: mime, audioBitsPerSecond: REC_BITRATE } : { audioBitsPerSecond: REC_BITRATE });
+  Object.assign(R, { rec, stream, id: 'rec-' + uid(), g, label, start: Date.now(), paused: 0, pauseAt: 0, markers: [], mime: rec.mimeType || mime || 'audio/webm', chunkN: 0 });
+  await Rec.saveMeta({ id: R.id, gatheringId: g.id, gTitle: g.title, label, mime: R.mime, startedAt: new Date().toISOString(), markers: [], durationSec: 0, done: false });
+  rec.ondataavailable = (e) => { if (e.data && e.data.size) Rec.addChunk(R.id, R.chunkN++, e.data); };
+  rec.start(4000);
+  // UI
+  const titles = { message: 'The message', verse: 'Verse', song: 'Song', announcement: 'Announcements' };
+  $('recTitle').textContent = titles[label] || 'Recording';
+  $('recTarget').textContent = g.title + ' · ' + fmtDate(g.date, { month: 'short', day: 'numeric' });
+  $('recMarks').classList.toggle('hidden', label !== 'message' && label !== 'announcement');
+  $('recLog').textContent = label === 'message' ? 'Tap a button below when a verse is read or a song starts.'
+    : label === 'song' ? 'Hold the phone toward the singing. 15–30 seconds is plenty.'
+    : label === 'verse' ? 'Record while the scripture is read. Stop when it’s done.' : 'Record while the announcements are made.';
+  $('recHint').textContent = label === 'message' ? 'The screen stays on while recording. Every few seconds is saved on this phone, so nothing is lost.' : 'Saved on this phone as it records.';
+  $('vRec').classList.remove('hidden', 'paused');
+  $('recState').textContent = 'RECORDING';
+  $('recPause').querySelector('span').textContent = 'Pause';
+  $('recPause').querySelector('use').setAttribute('href', '#i-pause');
+  tick(); R.timer = setInterval(tick, 500);
+  meter(stream);
+  try { R.wake = await navigator.wakeLock.request('screen'); } catch (e) {}
+  buzz(30);
+}
+function elapsed() { return ((R.pauseAt || Date.now()) - R.start - R.paused) / 1000; }
+function tick() { $('recClock').textContent = mmss(elapsed()); }
+function meter(stream) {
+  const bars = 28;
+  $('recMeter').innerHTML = '<i></i>'.repeat(bars);
+  const els = $('recMeter').children;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = ctx.createMediaStreamSource(stream);
+    const an = ctx.createAnalyser(); an.fftSize = 256; src.connect(an);
+    const data = new Uint8Array(an.frequencyBinCount);
+    R.ctx = ctx;
+    const draw = () => {
+      an.getByteTimeDomainData(data);
+      let peak = 0; for (let i = 0; i < data.length; i++) peak = Math.max(peak, Math.abs(data[i] - 128));
+      const lv = R.pauseAt ? 0 : Math.min(1, peak / 64);
+      for (let i = 0; i < bars; i++) {
+        const shape = Math.sin(Math.PI * (i + .5) / bars);
+        els[i].style.height = Math.max(4, Math.round(54 * lv * shape * (0.55 + Math.random() * 0.45))) + 'px';
+      }
+      R.raf = requestAnimationFrame(draw);
+    };
+    draw();
+  } catch (e) {}
+}
+function addMark(label) {
+  if (!R.rec) return;
+  const t = Math.round(elapsed());
+  R.markers.push({ t, label });
+  Rec.saveMeta(Object.assign({}, R.meta || {}, { id: R.id, markers: R.markers }), true);
+  const words = { verse: 'Verse', song: 'Song', announcement: 'Announcement', general: 'Key point' }[label];
+  $('recLog').textContent = words + ' marked at ' + mmss(t) + ' · ' + R.markers.length + ' mark' + (R.markers.length > 1 ? 's' : '');
+  const b = document.querySelector(`[data-mark="${label}"]`); b.classList.add('flash'); setTimeout(() => b.classList.remove('flash'), 350);
+  buzz(20);
+}
+function togglePause() {
+  if (!R.rec) return;
+  if (R.rec.state === 'recording') {
+    R.rec.pause(); R.pauseAt = Date.now();
+    $('vRec').classList.add('paused'); $('recState').textContent = 'PAUSED';
+    $('recPause').querySelector('span').textContent = 'Resume'; $('recPause').querySelector('use').setAttribute('href', '#i-play');
+  } else {
+    R.rec.resume(); R.paused += Date.now() - R.pauseAt; R.pauseAt = 0;
+    $('vRec').classList.remove('paused'); $('recState').textContent = 'RECORDING';
+    $('recPause').querySelector('span').textContent = 'Pause'; $('recPause').querySelector('use').setAttribute('href', '#i-pause');
+  }
+  buzz(15);
+}
+async function stopRecording() {
+  if (!R.rec) return;
+  const rec = R.rec, id = R.id, dur = Math.round(elapsed());
+  await new Promise((res) => { rec.onstop = res; try { rec.stop(); } catch (e) { res(); } });
+  await sleep(150); // let the last chunk land
+  R.stream.getTracks().forEach((t) => t.stop());
+  clearInterval(R.timer); cancelAnimationFrame(R.raf); try { R.ctx && R.ctx.close(); } catch (e) {}
+  try { R.wake && R.wake.release(); } catch (e) {}
+  await Rec.saveMeta({ id, markers: R.markers, durationSec: dur, done: true }, true);
+  R.rec = null;
+  $('vRec').classList.add('hidden');
+  if (dur < 2) { await Rec.remove(id); return toast('Too short — nothing saved.'); }
+  toast('Saved. Uploading…');
+  flushOutbox();
+}
+
+// ---- IndexedDB: recordings in progress + the upload outbox ----
+const Rec = (() => {
+  let dbp;
+  const db = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open('church-notes', 1);
+    r.onupgradeneeded = () => { r.result.createObjectStore('meta', { keyPath: 'id' }); r.result.createObjectStore('chunks'); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = async (stores, mode, fn) => { const d = await db(); return new Promise((res, rej) => { const t = d.transaction(stores, mode); let out; t.oncomplete = () => res(out); t.onerror = () => rej(t.error); out = fn(t); }); };
+  const req = (r) => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  return {
+    async saveMeta(m, merge) {
+      const d = await db();
+      const t = d.transaction('meta', 'readwrite'); const st = t.objectStore('meta');
+      const cur = merge ? await req(st.get(m.id)) : null;
+      st.put(Object.assign(cur || {}, m));
+      return new Promise((res) => { t.oncomplete = res; t.onerror = res; });
+    },
+    addChunk(id, n, blob) { return tx(['chunks'], 'readwrite', (t) => { t.objectStore('chunks').put(blob, id + ':' + String(n).padStart(6, '0')); }).catch(() => {}); },
+    async all() { const d = await db(); return req(d.transaction('meta').objectStore('meta').getAll()); },
+    async blob(id, mime) {
+      const d = await db();
+      const st = d.transaction('chunks').objectStore('chunks');
+      const keys = await req(st.getAllKeys(IDBKeyRange.bound(id + ':', id + ':~')));
+      const parts = await Promise.all(keys.sort().map((k) => req(st.get(k))));
+      return new Blob(parts, { type: mime });
+    },
+    async putFile(m, file) { await this.saveMeta(Object.assign({ done: true }, m)); await this.addChunk(m.id, 0, file); },
+    async remove(id) {
+      const d = await db();
+      const t = d.transaction(['meta', 'chunks'], 'readwrite');
+      t.objectStore('meta').delete(id);
+      t.objectStore('chunks').delete(IDBKeyRange.bound(id + ':', id + ':~'));
+      return new Promise((res) => { t.oncomplete = res; t.onerror = res; });
+    },
+  };
+})();
+
+/** Uploads everything waiting on this phone (finished recordings, shared files), one at a time. */
+let flushing = false;
+async function flushOutbox() {
+  if (flushing) return;
+  flushing = true;
+  try {
+    let list = (await Rec.all()).filter((m) => m.done);
+    renderOutbox(list);
+    for (const m of list) {
+      try {
+        if (!m.fileId && !m.text) {
+          const blob = await Rec.blob(m.id, m.mime);
+          if (!blob.size) { await Rec.remove(m.id); continue; }
+          const name = (m.name || (m.label + ' ' + new Date(m.startedAt).toISOString().slice(0, 16).replace(/[:T]/g, '.'))) + (m.name ? '' : ext(m.mime));
+          m.fileId = await uploadBlob(m.gatheringId, blob, name, m.mime, (pct) => setOutboxPct(m.id, pct));
+          await Rec.saveMeta({ id: m.id, fileId: m.fileId }, true);
+        }
+        const r = await api('addItem', { gatheringId: m.gatheringId, fileId: m.fileId || '', text: m.text || '', label: m.label, source: m.source || 'app',
+          durationSec: m.durationSec, markers: m.markers || [], clientId: m.id, createdAt: m.startedAt });
+        await Rec.remove(m.id);
+        if (S.g && S.g.id === m.gatheringId) { if (!S.items.some((x) => x.id === r.item.id)) S.items.push(r.item); if (S.g.status === 'summarized') S.g.status = 'stale'; renderGathering(); keepProcessing(); }
+        else nudgeProcess(r.item.id);
+      } catch (e) {
+        console.warn('upload later', e);
+        renderOutbox(await Rec.all(), errText(e));
+        return;
+      }
+    }
+    renderOutbox([]);
+    if (!$('vHome').classList.contains('hidden')) loadHome();
+  } finally { flushing = false; }
+}
+/** Starts processing in the background when the gathering isn't open (the 10-minute backend timer is the safety net). */
+async function nudgeProcess(id) {
+  for (let i = 0; i < 6; i++) {
+    try { const r = await api('process', { id }); if (r.item.stage === 'done' || r.item.stage === 'failed') { if (!$('vHome').classList.contains('hidden')) loadHome(); return; } } catch (e) { return; }
+    await sleep(2000);
+  }
+}
+function ext(mime) { return /mp4|aac|m4a/.test(mime) ? '.m4a' : /ogg/.test(mime) ? '.ogg' : /webm/.test(mime) ? '.webm' : /wav/.test(mime) ? '.wav' : /mpeg|mp3/.test(mime) ? '.mp3' : ''; }
+
+function renderOutbox(list, err) {
+  const waiting = (list || []).filter((m) => m.done);
+  const live = (list || []).filter((m) => !m.done && (!R.rec || m.id !== R.id));
+  const box = $('outbox');
+  const H = [];
+  if (waiting.length) H.push(`<div class="card outbox"><span class="ico">${icon('i-redo')}</span><div class="t"><b>${waiting.length} waiting to upload</b><br>${esc(err || 'Uploading now…')}<div class="bar"><i id="obBar"></i></div></div>${err ? '<button class="sbtn on" id="obRetry">Retry</button>' : ''}</div>`);
+  if (live.length) H.push(`<div class="card outbox"><span class="ico">${icon('i-mic')}</span><div class="t"><b>A recording was cut off</b><br>${esc(live[0].gTitle || '')} · ${mmss(live[0].durationSec || 0) === '0:00' ? 'saved pieces' : mmss(live[0].durationSec)}</div><button class="sbtn on" id="obRecover">Save it</button></div>`);
+  box.innerHTML = H.join('');
+  const rt = $('obRetry'); if (rt) rt.onclick = () => flushOutbox();
+  const rc = $('obRecover'); if (rc) rc.onclick = async () => { await Rec.saveMeta({ id: live[0].id, done: true }, true); flushOutbox(); };
+}
+function setOutboxPct(id, pct) { const b = $('obBar'); if (b) b.style.width = pct + '%'; }
+
+async function uploadBlob(gatheringId, blob, name, mime, onPct) {
+  onPct = onPct || (() => {});
+  if (DEMO) { onPct(100); return 'demo-' + uid(); }
+  mime = (mime || blob.type || 'application/octet-stream').split(';')[0];
+  try {
+    const r = await api('startUpload', { gatheringId, name, mime, size: blob.size });
+    return await putToDrive(r.uploadUrl, blob, onPct);
+  } catch (err) {
+    if (blob.size > 20 * 1024 * 1024) throw err;
+    onPct(30);
+    const data = await readBase64(blob);
+    return (await api('uploadInline', { gatheringId, name, mime, data })).fileId;
+  }
+}
+function putToDrive(url, blob, onPct) {
+  return new Promise((resolve, reject) => {
+    const x = new XMLHttpRequest();
+    x.open('PUT', url);
+    x.upload.onprogress = (e) => e.lengthComputable && onPct(Math.round(e.loaded / e.total * 95));
+    x.onload = () => {
+      if (x.status === 200 || x.status === 201) { try { resolve(JSON.parse(x.responseText).id); } catch (e) { reject(new Error('Drive upload response')); } }
+      else reject(new Error('Drive upload ' + x.status));
+    };
+    x.onerror = () => reject(new Error('NetworkError during upload'));
+    x.send(blob);
+  });
+}
+function readBase64(blob) {
+  return new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(String(r.result).split(',')[1]); r.onerror = reject; r.readAsDataURL(blob); });
+}
+
+// ====================================================================================
+// Photos, notes, files, and shares from other apps
+// ====================================================================================
+let pendingPhotoG = null, pendingFileG = null;
+
+async function shrinkImage(file, max) {
+  max = max || 2000;
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return await new Promise((res) => c.toBlob(res, 'image/jpeg', 0.86));
+  } catch (e) { return file; } finally { URL.revokeObjectURL(url); }
+}
+
+/** Queues files (photo, audio, PDF, text) for a gathering through the outbox, so a bad signal never loses them. */
+async function queueFiles(g, files, opts) {
+  opts = opts || {};
+  for (const f of files) {
+    let file = f, mime = f.type || guessMime(f.name);
+    if (/^image\//.test(mime)) { file = await shrinkImage(f); mime = 'image/jpeg'; }
+    else if (/amr|3gpp/.test(mime) || /\.(amr|3gp)$/i.test(f.name || '')) { const w = await toWav(f); if (w) { file = w; mime = 'audio/wav'; } }
+    const label = opts.label || (/^image\//.test(mime) || /pdf/.test(mime) ? 'announcement' : 'general');
+    const source = opts.source || (/^audio\//.test(mime) ? 'share' : 'share');
+    if (/^text\/plain/.test(mime) && f.size < 200000) {
+      await Rec.saveMeta({ id: 'txt-' + uid(), gatheringId: g.id, gTitle: g.title, label, source, text: await f.text(), startedAt: new Date().toISOString(), done: true });
+      continue;
+    }
+    await Rec.putFile({ id: 'file-' + uid(), gatheringId: g.id, gTitle: g.title, label, source, mime, name: f.name || ('capture' + ext(mime)), startedAt: new Date(f.lastModified || Date.now()).toISOString() }, file);
+  }
+  flushOutbox();
+}
+function guessMime(name) {
+  const e = String(name || '').toLowerCase().split('.').pop();
+  return { m4a: 'audio/mp4', mp3: 'audio/mpeg', wav: 'audio/wav', amr: 'audio/amr', '3gp': 'audio/3gpp', ogg: 'audio/ogg', aac: 'audio/aac', pdf: 'application/pdf', txt: 'text/plain', jpg: 'image/jpeg', png: 'image/png' }[e] || 'application/octet-stream';
+}
+/** Voicemail apps often save AMR, which the transcriber can't read: turn it into a small 16 kHz WAV if this phone can decode it. */
+async function toWav(file) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = await ctx.decodeAudioData(await file.arrayBuffer());
+    ctx.close();
+    if (buf.duration > 40 * 60) return null;
+    const rate = 16000, n = Math.round(buf.duration * rate);
+    const off = new OfflineAudioContext(1, n, rate);
+    const src = off.createBufferSource(); src.buffer = buf; src.connect(off.destination); src.start();
+    const out = (await off.startRendering()).getChannelData(0);
+    const ab = new ArrayBuffer(44 + n * 2), v = new DataView(ab);
+    const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+    w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE'); w(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); w(36, 'data'); v.setUint32(40, n * 2, true);
+    for (let i = 0; i < n; i++) { const s = Math.max(-1, Math.min(1, out[i])); v.setInt16(44 + i * 2, s < 0 ? s * 0x8000 : s * 0x7fff, true); }
+    return new File([ab], (file.name || 'voicemail').replace(/\.\w+$/, '') + '.wav', { type: 'audio/wav' });
+  } catch (e) { return null; }
+}
+
+function noteSheet(g, preset) {
+  preset = preset || {};
+  let label = preset.label || 'general';
+  openSheet(`<h2>Note</h2><p class="lead">${esc(g.title)} · ${esc(fmtDate(g.date, { month: 'short', day: 'numeric' }))}</p>
+    <div class="chips" id="nLabel">${Object.keys(LABELS).map((k) => `<button class="chip${label === k ? ' on' : ''}" data-l="${k}">${icon(LABELS[k].i)}${LABELS[k].l}</button>`).join('')}</div>
+    <label class="field"><span>What do you want to remember?</span><textarea id="nText" placeholder="“Pastor said… / Potluck after service on the 30th / Look up Habakkuk 2:3”">${esc(preset.text || '')}</textarea></label>
+    <div class="row"><button class="pbtn ghost" id="nMic" style="justify-content:center">${icon('i-mic')}<span>Dictate</span></button><button class="pbtn" id="nSave" style="justify-content:center">Save note</button></div>`, (el) => {
+    const ta = el.querySelector('#nText');
+    if (!preset.text) setTimeout(() => ta.focus(), 250);
+    el.querySelectorAll('[data-l]').forEach((b) => b.onclick = () => { label = b.dataset.l; el.querySelectorAll('[data-l]').forEach((x) => x.classList.toggle('on', x === b)); });
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const mic = el.querySelector('#nMic');
+    if (!SR) mic.classList.add('hidden');
+    let sr = null;
+    mic.onclick = () => {
+      if (sr) { sr.stop(); return; }
+      sr = new SR(); sr.lang = navigator.language || 'en-US'; sr.continuous = true; sr.interimResults = true;
+      const base = ta.value ? ta.value.replace(/\s*$/, ' ') : '';
+      sr.onresult = (e) => { let s = ''; for (let i = 0; i < e.results.length; i++) s += e.results[i][0].transcript; ta.value = base + s; };
+      sr.onend = () => { sr = null; mic.querySelector('span').textContent = 'Dictate'; };
+      sr.start(); mic.querySelector('span').textContent = 'Stop';
+    };
+    el.querySelector('#nSave').onclick = async () => {
+      if (sr) sr.stop();
+      const text = ta.value.trim();
+      if (!text) return toast('Write or say something first.');
+      await Rec.saveMeta({ id: 'note-' + uid(), gatheringId: g.id, gTitle: g.title, label, source: preset.source || 'typed', text, startedAt: new Date().toISOString(), done: true });
+      closeSheet(); toast('Saved'); flushOutbox();
+    };
+  });
+}
+
+/** Android share sheet -> Church Notes (voicemail audio, Samsung Notes recordings / text / PDF, photos). */
+async function takeShare() {
+  let box;
+  try { box = await caches.open('cn-share'); } catch (e) { return; }
+  const keys = await box.keys();
+  if (!keys.length) return;
+  const files = []; let text = '';
+  for (const k of keys) {
+    const res = await box.match(k);
+    if (res.headers.get('x-name') === '__text__') text = await res.text();
+    else files.push(new File([await res.blob()], decodeURIComponent(res.headers.get('x-name') || 'shared'), { type: res.headers.get('content-type') || '' }));
+    await box.delete(k);
+  }
+  if (!files.length && !text) return;
+  shareSheet(files, text);
+}
+
+function shareSheet(files, text) {
+  const audio = files.some((f) => /^audio\//.test(f.type) || /\.(m4a|amr|3gp|mp3|wav|ogg)$/i.test(f.name));
+  const guessVoicemail = files.some((f) => /amr|3gpp|voicemail|vvm/i.test(f.type + ' ' + f.name));
+  let source = guessVoicemail ? 'voicemail' : audio || text ? 'samsung-notes' : 'share';
+  let label = files.some((f) => /^image\/|pdf/.test(f.type)) ? 'announcement' : guessVoicemail ? 'announcement' : 'general';
+  const gs = ((S.home && S.home.gatherings) || []).slice(0, 5);
+  let target = (S.target && !S.target.pending) ? S.target : (gs.find((g) => g.date === todayYmd()) || gs[0] || null);
+  const what = [files.length ? files.length + ' file' + (files.length > 1 ? 's' : '') + ' (' + files.map((f) => f.name).join(', ') + ')' : '', text ? 'text' : ''].filter(Boolean).join(' + ');
+  openSheet(`<h2>Add to Church Notes</h2><p class="lead">${esc(what)}</p>
+    ${text ? `<div class="transcript" style="max-height:140px">${esc(text.slice(0, 1500))}</div>` : ''}
+    <div class="sub">From</div>
+    <div class="chips" id="shSrc">${['samsung-notes', 'voicemail', 'share'].map((k) => `<button class="chip${source === k ? ' on' : ''}" data-s="${k}">${icon(k === 'voicemail' ? 'i-phone' : k === 'samsung-notes' ? 'i-note' : 'i-share')}${k === 'share' ? 'Other app' : SOURCES[k]}</button>`).join('')}</div>
+    <div class="sub">What is it?</div>
+    <div class="chips" id="shLabel">${Object.keys(LABELS).map((k) => `<button class="chip${label === k ? ' on' : ''}" data-l="${k}">${icon(LABELS[k].i)}${LABELS[k].l}</button>`).join('')}</div>
+    <div class="sub">Goes with</div>
+    <div class="chips" id="shG">${gs.map((g) => `<button class="chip${target && target.id === g.id ? ' on' : ''}" data-g="${esc(g.id)}">${esc(g.title)} · ${esc(fmtDate(g.date, { month: 'short', day: 'numeric' }))}</button>`).join('')}
+      <button class="chip" data-g="__new">${icon('i-plus')}New…</button></div>
+    <div class="row" style="margin-top:18px"><button class="pbtn" id="shSave" style="justify-content:center">Save</button></div>`, (el) => {
+    const sel = (sel, attr, set) => el.querySelectorAll(sel + ' [' + attr + ']').forEach((b) => b.onclick = () => { el.querySelectorAll(sel + ' [' + attr + ']').forEach((x) => x.classList.toggle('on', x === b)); set(b); });
+    sel('#shSrc', 'data-s', (b) => source = b.dataset.s);
+    sel('#shLabel', 'data-l', (b) => label = b.dataset.l);
+    sel('#shG', 'data-g', (b) => {
+      if (b.dataset.g === '__new') { pickTarget((g) => shareSheetResume(files, text, source, label, g)); return; }
+      target = gs.find((g) => g.id === b.dataset.g);
+    });
+    el.querySelector('#shSave').onclick = async () => {
+      try {
+        if (!target) return pickTarget((g) => shareSheetResume(files, text, source, label, g));
+        const g = await resolveTarget(target);
+        await saveShared(g, files, text, source, label);
+      } catch (e) { toast(errText(e)); }
+    };
+  });
+}
+async function shareSheetResume(files, text, source, label, g) {
+  try { g = await resolveTarget(g); await saveShared(g, files, text, source, label); } catch (e) { toast(errText(e)); }
+}
+async function saveShared(g, files, text, source, label) {
+  if (text) await Rec.saveMeta({ id: 'share-' + uid(), gatheringId: g.id, gTitle: g.title, label, source, text, startedAt: new Date().toISOString(), done: true });
+  if (files.length) await queueFiles(g, files, { label, source }); else flushOutbox();
+  closeSheet(); toast('Added to ' + g.title); loadHome();
+}
+
+// ====================================================================================
+// Settings
+// ====================================================================================
+function settingsSheet() {
+  const s = Object.assign({ translation: 'kjv', churchName: '', pastorName: '', recapEmail: true, briefing: true }, S.settings);
+  openSheet(`<h2>Settings</h2>
+    <label class="field"><span>Your church</span><input id="stChurch" value="${esc(s.churchName)}" placeholder="Church name"></label>
+    <label class="field"><span>Pastor</span><input id="stPastor" value="${esc(s.pastorName)}" placeholder="Helps the notes get names right"></label>
+    <label class="field"><span>Bible for verse text</span><select id="stTr">
+      ${[['kjv', 'King James Version (KJV)'], ['web', 'World English Bible (WEB)'], ['asv', 'American Standard Version (ASV)'], ['bbe', 'Bible in Basic English (BBE)']].map(([k, l]) => `<option value="${k}"${s.translation === k ? ' selected' : ''}>${l}</option>`).join('')}
+    </select></label>
+    <div class="toggle"><div class="t">Sunday recap email<small>Sunday evening: the message, verses, songs and what’s coming up</small></div><button class="sw${s.recapEmail ? ' on' : ''}" id="stMail" aria-label="Recap email"></button></div>
+    <div class="toggle"><div class="t">Send dates to Morning Briefing<small>Upcoming church events count down in your podcast</small></div><button class="sw${s.briefing ? ' on' : ''}" id="stBrief" aria-label="Morning Briefing"></button></div>
+    <div class="row" style="margin-top:16px"><button class="pbtn" id="stSave" style="justify-content:center">Save</button></div>
+    <p class="muted center" style="font-size:12.5px;margin-top:16px">Recordings and notes live in your Google Drive folder “Church Notes”.${DEMO ? '<br><b>Demo mode</b>' : ''}</p>`, (el) => {
+    const sw = (id) => { const b = el.querySelector(id); b.onclick = () => b.classList.toggle('on'); };
+    sw('#stMail'); sw('#stBrief');
+    el.querySelector('#stSave').onclick = async () => {
+      try {
+        const r = await api('saveSettings', { settings: { churchName: el.querySelector('#stChurch').value, pastorName: el.querySelector('#stPastor').value,
+          translation: el.querySelector('#stTr').value, recapEmail: el.querySelector('#stMail').classList.contains('on'), briefing: el.querySelector('#stBrief').classList.contains('on') } });
+        S.settings = r.settings; closeSheet(); toast('Saved');
+      } catch (e) { toast(errText(e)); }
+    };
+  });
+}
+
+// ====================================================================================
+// Sheets & navigation
+// ====================================================================================
+function openSheet(html, bind) {
+  const sh = $('sheet'), sc = $('scrim');
+  $('sheetBody').innerHTML = html;
+  sh.classList.remove('hidden'); sc.classList.remove('hidden');
+  requestAnimationFrame(() => { sh.classList.add('show'); sc.classList.add('show'); });
+  sh.scrollTop = 0;
+  if (bind) bind($('sheetBody'));
+}
+function closeSheet() {
+  const sh = $('sheet'), sc = $('scrim');
+  sh.classList.remove('show'); sc.classList.remove('show');
+  setTimeout(() => { if (!sh.classList.contains('show')) { sh.classList.add('hidden'); sc.classList.add('hidden'); } }, 260);
+}
+function show(id) { ['vHome', 'vGathering'].forEach((v) => $(v).classList.toggle('hidden', v !== id)); scrollTo(0, 0); }
+function goHome() { S.g = null; show('vHome'); history.replaceState(null, '', location.pathname); loadHome(); }
+
+$('scrim').onclick = closeSheet;
+$('btnSettings').onclick = settingsSheet;
+$('btnBack').onclick = () => { if (history.state && history.state.v === 'g') history.back(); else goHome(); };
+window.addEventListener('popstate', () => { if (!$('sheet').classList.contains('hidden')) closeSheet(); if (!$('vGathering').classList.contains('hidden')) goHome(); });
+$('btnGMenu').onclick = gatheringMenu;
+$('btnAdd').onclick = () => captureMenu(S.g && S.g.id);
+$('btnTarget').onclick = () => pickTarget();
+$('btnNewMeeting').onclick = () => newGatheringSheet('meeting', (g) => { setTarget(g); openGathering(g.id, 'captures'); });
+$('btnRecord').onclick = () => doQuick('record');
+document.querySelectorAll('[data-quick]').forEach((b) => b.onclick = () => doQuick(b.dataset.quick));
+document.querySelectorAll('#gTabs button').forEach((b) => b.onclick = () => { S.tab = b.dataset.tab; renderGathering(); });
+document.querySelectorAll('[data-mark]').forEach((b) => b.onclick = () => addMark(b.dataset.mark));
+$('recPause').onclick = togglePause;
+$('recStop').onclick = stopRecording;
+$('filePhoto').onchange = (e) => { const f = [...e.target.files]; e.target.value = ''; if (f.length && pendingPhotoG) { queueFiles(pendingPhotoG, f, { label: 'announcement', source: 'app' }); toast('Photo saved. Uploading…'); } };
+$('fileAny').onchange = (e) => { const f = [...e.target.files]; e.target.value = ''; if (f.length && pendingFileG) shareSheetFor(pendingFileG, f); };
+function shareSheetFor(g, files) { S.target = g; shareSheet(files, ''); }
+window.addEventListener('beforeunload', (e) => { if (R.rec) { e.preventDefault(); e.returnValue = ''; } });
+window.addEventListener('online', () => flushOutbox());
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState === 'visible' && R.rec && !R.wake) { try { R.wake = await navigator.wakeLock.request('screen'); } catch (e) {} }
+});
+
+// ====================================================================================
+// Demo backend (localhost / before deploy): everything stays in this browser
+// ====================================================================================
+const Demo = (() => {
+  const K = 'cnDemo';
+  const today = new Date(); const lastSun = new Date(today); lastSun.setDate(today.getDate() - ((today.getDay() + 7) % 7 || 7));
+  const d0 = ymd(lastSun);
+  const seed = () => ({
+    settings: { translation: 'kjv', churchName: 'Grace Fellowship', pastorName: 'Pastor James', recapEmail: true, briefing: true },
+    gatherings: [{ id: 'g1', kind: 'sunday', title: 'Sunday Service', date: d0, status: 'summarized', notes: '', updatedAt: new Date().toISOString(),
+      summary: {
+        headline: 'Faith that waits — Habakkuk 2 and a fall festival on the 30th',
+        message: { title: 'Faith That Waits', speaker: 'Pastor James', mainScripture: 'Habakkuk 2:1-4', bigIdea: 'God’s timing isn’t slow — it’s sure. Waiting is part of the work He’s doing in us.',
+          points: [
+            { heading: 'Get to your watchtower', detail: 'Habakkuk brought his complaint to God and then stationed himself to listen. Bring the hard questions to God, then make room to hear Him.', scripture: 'Habakkuk 2:1' },
+            { heading: 'Write the vision down', detail: 'God told him to write it plainly so others could run with it. Pastor challenged us to write down what we’re trusting God for this season.', scripture: 'Habakkuk 2:2' },
+            { heading: 'It will surely come', detail: 'Though it tarries, wait for it. Delay is not denial. The just live by faith in the meantime.', scripture: 'Habakkuk 2:3-4' },
+          ],
+          quotes: ['Delay is not denial.', 'Waiting on God is not sitting still — it’s standing watch.'],
+          application: ['Write down one thing you’re trusting God for and put it where you’ll see it.', 'Spend ten quiet minutes each morning listening before asking.'],
+          reflectionQuestions: ['Where am I impatient with God right now?', 'What would “standing watch” look like in my week?'] },
+        verses: [
+          { reference: 'Habakkuk 2:3', context: 'the main text', translation: 'KJV', text: 'For the vision is yet for an appointed time, but at the end it shall speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry.' },
+          { reference: 'Isaiah 40:31', context: 'read during the closing', translation: 'KJV', text: 'But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.' },
+        ],
+        songs: [{ title: 'Way Maker', artist: 'Sinach' }, { title: 'Great Is Thy Faithfulness', artist: 'Thomas Chisholm' }],
+        announcements: [{ title: 'Fall Festival', date: ymd(new Date(lastSun.getTime() + 13 * 864e5)), time: '16:00', endTime: '19:00', location: 'Church lawn', details: 'Bring a side dish. Volunteers sign up in the lobby.', kind: 'event' },
+          { title: 'New members class', date: '', time: '', endTime: '', location: '', details: 'Starts next month; see the welcome desk.', kind: 'info' }],
+        meeting: { purpose: '', decisions: [], actionItems: [], openQuestions: [] },
+        prayerRequests: ['Sister Gloria’s recovery after surgery', 'Families affected by the storm'],
+        translation: 'King James Version',
+      } }],
+    items: [
+      { id: 'i1', gatheringId: 'g1', createdAt: lastSun.toISOString(), kind: 'recording', label: 'message', source: 'app', durationSec: '2412', markers: [{ t: 312, label: 'verse' }, { t: 1630, label: 'song' }], stage: 'done', text: '', hasFile: true,
+        transcript: '[00:04] Pastor: Turn with me to Habakkuk chapter two…\n[05:12] Pastor: I will stand upon my watch, and set me upon the tower… {Scripture: Habakkuk 2:1}\n[27:10] [singing] "Way maker, miracle worker…" {Song: Way Maker}',
+        result: { title: 'Sermon: Faith That Waits', gist: 'Pastor James preached from Habakkuk 2 on trusting God’s timing.', verses: [{ reference: 'Habakkuk 2:1-4', note: 'main text' }], songs: [{ title: 'Way Maker', artist: 'Sinach', confident: true }], announcements: [], actionItems: [] } },
+      { id: 'i2', gatheringId: 'g1', createdAt: lastSun.toISOString(), kind: 'photo', label: 'announcement', source: 'app', stage: 'done', text: '', hasFile: true, markers: [],
+        result: { title: 'Bulletin', gist: 'Fall festival on the 30th, new members class next month.', verses: [], songs: [], announcements: [], actionItems: [] } },
+    ],
+    actions: [{ id: 'a1', gatheringId: 'g1', kind: 'event', title: 'Fall Festival', date: ymd(new Date(lastSun.getTime() + 13 * 864e5)), time: '16:00', endTime: '19:00', location: 'Church lawn',
+      details: 'Bring a side dish. Volunteers sign up in the lobby.', status: 'suggested', calendarEventId: '', briefingTaskId: 'demo' }],
+  });
+  let db = store.get(K, null) || seed();
+  const save = () => store.set(K, db);
+  const id = () => uid();
+  const pub = (it) => Object.assign({}, it);
+  const fakeResult = (it) => {
+    const r = { verse: { title: 'Verse: Psalm 46:10', gist: 'Psalm 46:10 was read during the call to worship.', verses: [{ reference: 'Psalm 46:10', note: 'call to worship', translation: 'KJV', text: 'Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.' }], songs: [] },
+      song: { title: 'Song: Goodness of God', gist: 'The choir sang “Goodness of God”.', verses: [], songs: [{ title: 'Goodness of God', artist: 'Bethel Music', heardPhrase: 'all my life you have been faithful', confident: true }] },
+      announcement: { title: 'Announcements', gist: 'Choir rehearsal moved to Thursday at 7.', verses: [], songs: [] },
+      message: { title: 'Sermon (demo)', gist: 'A recorded message. In the real app this becomes a full transcript and summary.', verses: [{ reference: 'Romans 8:28', note: 'quoted', translation: 'KJV', text: 'And we know that all things work together for good to them that love God, to them who are the called according to his purpose.' }], songs: [] },
+      general: { title: 'Note', gist: (it.text || 'A note').slice(0, 140), verses: [], songs: [] } }[it.label] || { title: 'Capture', gist: '', verses: [], songs: [] };
+    return Object.assign({ announcements: [], actionItems: [] }, r);
+  };
+  const A = {
+    home() {
+      const counts = {};
+      db.items.forEach((it) => { const c = counts[it.gatheringId] || (counts[it.gatheringId] = { items: 0, pending: 0, verses: 0, songs: 0 }); c.items++; if (it.stage !== 'done' && it.stage !== 'failed') c.pending++; c.verses += ((it.result || {}).verses || []).length; c.songs += ((it.result || {}).songs || []).length; });
+      return { settings: db.settings, today: todayYmd(),
+        gatherings: db.gatherings.map((g) => ({ id: g.id, kind: g.kind, title: g.title, date: g.date, status: g.status, headline: (g.summary || {}).headline || '', messageTitle: ((g.summary || {}).message || {}).title || '', counts: counts[g.id] || { items: 0, pending: 0, verses: 0, songs: 0 } })).sort((a, b) => b.date.localeCompare(a.date)),
+        upcoming: db.actions.filter((a) => a.status !== 'dismissed' && a.status !== 'done' && (!a.date || a.date >= todayYmd()) && a.kind !== 'info') };
+    },
+    gathering(p) { const g = db.gatherings.find((x) => x.id === p.id); if (!g) throw new Error('Not found.'); return { gathering: g, items: db.items.filter((it) => it.gatheringId === g.id).map(pub), actions: db.actions.filter((a) => a.gatheringId === g.id) }; },
+    ensureGathering(p) {
+      if (p.kind === 'sunday' && !p.forceNew) { const hit = db.gatherings.find((g) => g.kind === 'sunday' && g.date === p.date); if (hit) return { gathering: hit }; }
+      const g = { id: id(), kind: p.kind || 'sunday', title: p.title || KINDS[p.kind], date: p.date || todayYmd(), status: 'open', summary: {}, notes: '', updatedAt: new Date().toISOString() };
+      db.gatherings.push(g); return { gathering: g };
+    },
+    updateGathering(p) { const g = db.gatherings.find((x) => x.id === p.id); Object.assign(g, p.patch); return { gathering: g }; },
+    deleteGathering(p) { db.gatherings = db.gatherings.filter((g) => g.id !== p.id); db.items = db.items.filter((i) => i.gatheringId !== p.id); db.actions = db.actions.filter((a) => a.gatheringId !== p.id); return {}; },
+    addItem(p) {
+      const dup = db.items.find((x) => x.clientId === p.clientId); if (dup) return { item: dup };
+      const it = { id: id(), gatheringId: p.gatheringId, createdAt: p.createdAt || new Date().toISOString(), kind: p.fileId ? (p.label === 'message' ? 'recording' : 'audio') : 'note',
+        label: p.label, source: p.source, durationSec: String(p.durationSec || ''), markers: p.markers || [], text: p.text || '', transcript: '', result: {}, stage: 'queued', hasFile: !!p.fileId, clientId: p.clientId };
+      if (p.fileId && /^(file|photo)/.test(p.clientId || '') && p.label === 'announcement') it.kind = 'photo';
+      db.items.push(it); const g = db.gatherings.find((x) => x.id === p.gatheringId); if (g && g.status === 'summarized') g.status = 'stale'; return { item: it };
+    },
+    async process(p) {
+      const it = db.items.find((x) => x.id === p.id); await sleep(1200);
+      if (it.stage === 'queued') { it.stage = 'transcribed'; if (it.kind !== 'note') it.transcript = '[00:01] (demo transcript)'; }
+      else if (it.stage === 'transcribed') { it.stage = 'done'; it.result = fakeResult(it); }
+      return { item: pub(it) };
+    },
+    retryItem(p) { const it = db.items.find((x) => x.id === p.id); it.stage = 'queued'; return { item: it }; },
+    updateItem(p) { const it = db.items.find((x) => x.id === p.id); Object.assign(it, p.patch); if (p.patch.label) it.stage = 'transcribed'; return { item: it }; },
+    deleteItem(p) { db.items = db.items.filter((x) => x.id !== p.id); return {}; },
+    transcript(p) { return { text: db.items.find((x) => x.id === p.id).transcript }; },
+    mediaView() { return { driveUrl: 'https://drive.google.com' }; },
+    async summarize(p) {
+      await sleep(1800);
+      const g = db.gatherings.find((x) => x.id === p.id);
+      const its = db.items.filter((i) => i.gatheringId === g.id && i.stage === 'done');
+      if (!its.length) throw new Error('Capture something first.');
+      const verses = [].concat(...its.map((i) => i.result.verses || [])); const songs = [].concat(...its.map((i) => i.result.songs || []));
+      g.summary = Object.assign({ message: { title: '', speaker: '', mainScripture: '', bigIdea: '', points: [], quotes: [], application: [], reflectionQuestions: [] }, meeting: { purpose: '', decisions: [], actionItems: [], openQuestions: [] }, prayerRequests: [], announcements: [] },
+        g.summary && g.summary.headline && g.id === 'g1' ? g.summary : { headline: its.map((i) => i.result.title).join(' · '), verses, songs, translation: 'King James Version' });
+      if (g.kind !== 'sunday' && g.id !== 'g1') g.summary.meeting = { purpose: 'Demo meeting summary.', decisions: ['Moved choir rehearsal to Thursdays'], actionItems: [{ task: 'Send the new schedule', who: 'You', due: '' }], openQuestions: [] };
+      g.status = 'summarized';
+      return { gathering: g, actions: db.actions.filter((a) => a.gatheringId === g.id) };
+    },
+    addToCalendar(p) { const a = db.actions.find((x) => x.id === p.id); a.calendarEventId = 'demo'; a.status = 'added'; return { action: a }; },
+    removeFromCalendar(p) { const a = db.actions.find((x) => x.id === p.id); a.calendarEventId = ''; a.status = 'suggested'; return { action: a }; },
+    updateAction(p) { const a = db.actions.find((x) => x.id === p.id); Object.assign(a, p.patch); return { action: a }; },
+    addAction(p) { const a = Object.assign({ id: id(), gatheringId: p.gatheringId, status: 'suggested', calendarEventId: '', briefingTaskId: '' }, p.action); db.actions.push(a); return { action: a }; },
+    emailRecap() { return { sent: true }; },
+    saveSettings(p) { Object.assign(db.settings, p.settings); return { settings: db.settings }; },
+    startUpload() { return { uploadUrl: '' }; },
+  };
+  return { async call(action, p) { const fn = A[action]; if (!fn) throw new Error('demo: ' + action); const out = await fn(JSON.parse(JSON.stringify(p))); save(); return JSON.parse(JSON.stringify(Object.assign({ ok: true }, out))); }, reset() { db = seed(); save(); } };
+})();
+
+// ====================================================================================
+// Start
+// ====================================================================================
+if (DEMO) $('demoBar').hidden = false;
+if ('serviceWorker' in navigator && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {});
+(async function start() {
+  if (!DEMO && !KEY) {
+    $('gList').innerHTML = `<div class="card empty"><h2>Almost there.</h2><p>Open your personal Church Notes link (the one with <b>#k=</b> in it) once on this phone and it’ll remember you.</p></div>`;
+    return;
+  }
+  const qs = new URLSearchParams(location.search);
+  await loadHome();
+  Rec.all().then((l) => renderOutbox(l)).then(() => flushOutbox()).catch(() => {});
+  if (qs.get('shared')) { history.replaceState(null, '', location.pathname); takeShare(); }
+  else if (qs.get('g')) openGathering(qs.get('g'));
+  else if (qs.get('go')) { history.replaceState(null, '', location.pathname); doQuick(qs.get('go')); }
+})();
+</script>
+</body>
+</html>
